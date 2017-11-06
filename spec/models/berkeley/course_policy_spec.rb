@@ -106,11 +106,6 @@ describe Berkeley::CoursePolicy do
       allow_any_instance_of(CampusOracle::UserCourses::All).to receive(:get_all_campus_courses).and_return campus_oracle_courses
       allow_any_instance_of(EdoOracle::UserCourses::All).to receive(:all_campus_courses).and_return edo_oracle_courses
     end
-    context 'instructor according to legacy data' do
-      let(:campus_oracle_courses) { instructor_courses }
-      let(:edo_oracle_courses) { {} }
-      its(:can_view_roster_photos?) { should eq true }
-    end
     context 'instructor according to EDO data' do
       let(:campus_oracle_courses) { {} }
       let(:edo_oracle_courses) { instructor_courses }
