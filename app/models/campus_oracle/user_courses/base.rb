@@ -8,7 +8,7 @@ module CampusOracle
       def initialize(options = {})
         super(Settings.campusdb, options)
         @uid = @settings.fake_user_id if @fake
-        @legacy_academic_terms = Berkeley::Summer16EnrollmentTerms.legacy_terms
+        @legacy_academic_terms = Berkeley::Terms.fetch.campus.values.select &:legacy?
       end
 
       def self.expires_in

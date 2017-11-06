@@ -17,7 +17,7 @@ module EdoOracle
       def initialize(options = {})
         super(Settings.edodb, options)
         @uid = @settings.fake_user_id if @fake
-        @non_legacy_academic_terms = Berkeley::Summer16EnrollmentTerms.non_legacy_terms
+        @academic_terms = Berkeley::Terms.fetch.campus.values
       end
 
       def get_all_campus_courses
@@ -52,10 +52,10 @@ module EdoOracle
       end
 
       def merge_enrollments(campus_classes)
-        return if @non_legacy_academic_terms.empty?
+        return if @academic_terms.empty?
         previous_item = {}
 
-        EdoOracle::Queries.get_enrolled_sections(@uid, @non_legacy_academic_terms).each do |row|
+        EdoOracle::Queries.get_enrolled_sections(@uid, @academic_terms).each do |row|
           if (item = row_to_feed_item(row, previous_item))
             item[:role] = 'Student'
             # Cross-listed courses may lack descriptive names. Students, unlike instructors, will
@@ -68,11 +68,11 @@ module EdoOracle
       end
 
       def merge_instructing(campus_classes)
-        return if @non_legacy_academic_terms.empty?
+        return if @academic_terms.empty?
         previous_item = {}
         cross_listing_tracker = {}
 
-        EdoOracle::Queries.get_instructing_sections(@uid, @non_legacy_academic_terms).each do |row|
+        EdoOracle::Queries.get_instructing_sections(@uid, @academic_terms).each do |row|
           if (item = row_to_feed_item(row, previous_item, cross_listing_tracker))
             item[:role] = 'Instructor'
             merge_feed_item(item, campus_classes)

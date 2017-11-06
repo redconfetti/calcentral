@@ -13,11 +13,105 @@ describe EdoOracle::UserCourses::Base do
         term_ids.present? && term_ids.all? { |term_id| term_id >= cutoff }
       end
     end
+  end
 
-    it 'should query non-legacy terms only' do
-      allow(Settings.terms).to receive(:legacy_cutoff).and_return 'summer-2013'
-      expect(EdoOracle::Queries).to receive(:get_enrolled_sections).with(anything, terms_following_and_including_cutoff('2135')).and_return []
-      described_class.new(user_id: random_id).merge_enrollments({})
+  let(:base_course_data) do
+    {
+      'catalog_id' => '74',
+      'catalog_prefix' => nil,
+      'catalog_root' => '74',
+      'catalog_suffix' => nil,
+      'course_display_name' => 'MUSIC 74',
+      'course_title' => 'Introduction to Selected Musics of the World',
+      'course_title_short' => 'INTR MUSICS WORLD',
+      'dept_name' => 'MUSIC',
+      'section_display_name' => 'MUSIC 74',
+      'term_id' => '2168',
+    }
+  end
+
+  let(:subject_areas) { ['MEC ENG', 'MUSIC'] }
+  before do
+    allow(EdoOracle::Queries).to receive(:get_subject_areas).and_return subject_areas.map { |area| {'subjectarea' => area} }
+  end
+
+  describe 'enrolled sections merge' do
+    let(:enrollment_query_results) do
+      [
+        base_course_data.merge({
+          'enroll_limit' => '40',
+          'enroll_status' => 'E',
+          'grade' => 'B',
+          'grading_basis' => 'GRD',
+          'instruction_format' => 'LEC',
+          'primary' => 'true',
+          'primary_associated_section_id' => '44203',
+          'section_id' => '44203',
+          'section_num' => '001',
+          'units' => '4',
+          'wait_list_seq_num' => nil
+        }),
+        base_course_data.merge({
+          'enroll_limit' => '50',
+          'enroll_status' => 'W',
+          'grade' => nil,
+          'grading_basis' => 'PNP',
+          'instruction_format' => 'LEC',
+          'primary' => 'true',
+          'primary_associated_section_id' => '44206',
+          'section_id' => '44206',
+          'section_num' => '002',
+          'units' => '3',
+          'wait_list_seq_num' => nil
+        }),
+        base_course_data.merge({
+          'enroll_limit' => '40',
+          'enroll_status' => 'E',
+          'grade' => nil,
+          'grading_basis' => nil,
+          'instruction_format' => 'DIS',
+          'primary' => 'false',
+          'primary_associated_section_id' => '44201',
+          'section_id' => '44214',
+          'section_num' => '201',
+          'units' => nil,
+          'wait_list_seq_num' => nil
+        }),
+        base_course_data.merge({
+          'enroll_limit' => '40',
+          'enroll_status' => 'E',
+          'grade' => nil,
+          'grading_basis' => nil,
+          'instruction_format' => 'DIS',
+          'primary' => 'false',
+          'primary_associated_section_id' => '44203',
+          'section_id' => '44214',
+          'section_num' => '201',
+          'units' => nil,
+          'wait_list_seq_num' => nil
+        })
+      ]
+    end
+    before do
+      expect(EdoOracle::Queries).to receive(:get_enrolled_sections).and_return enrollment_query_results
+    end
+    let(:feed) { {}.tap { |feed| EdoOracle::UserCourses::Base.new(user_id: random_id).merge_enrollments feed } }
+    subject { feed['2016-D'] }
+    its(:size) { should eq 1 }
+    let(:course) { subject.first }
+    it 'includes only course info at the course level' do
+      expect(course[:catid]).to eq '74'
+      expect(course[:course_catalog]).to eq '74'
+      expect(course[:course_code]).to eq 'MUSIC 74'
+      expect(course[:dept]).to eq 'MUSIC'
+      expect(course[:emitter]).to eq 'Campus'
+      expect(course[:id]).to eq 'music-74-2016-D'
+      expect(course[:name]).to eq 'Introduction to Selected Musics of the World'
+      expect(course[:role]).to eq 'Student'
+      expect(course[:slug]).to eq 'music-74'
+      expect(course[:term_cd]).to eq 'D'
+      expect(course[:term_id]).to eq '2168'
+      expect(course[:term_yr]).to eq '2016'
     end
 
     let(:base_course_data) do
