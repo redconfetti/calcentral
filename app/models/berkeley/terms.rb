@@ -1,25 +1,3 @@
-# Our campus DB may contain data for many semesters excluded from CalCentral. Semesters of interest vary by
-# functional domain:
-#
-#   * My Academics :
-#       - Currently running term (if any; there are gaps between terms)
-#       - Past terms back to a configured cut-off
-#       - The next term, when available
-#       - In Spring, the next Fall term, when available
-#   * My Classes :
-#       - Currently running term, if any; otherwise the next term
-#   * bCourses course provisioning & refreshes :
-#       - Currently running term (if any)
-#       - The next term, when available
-#       - In Spring, the next Fall term, when available
-#   * FinAid :
-#       - Always display the "current Aid Year", which is defined as:
-#           - After the end of the Summer term, the next calendar year
-#           - Up to and including the last day of this year's Summer term, the current calendar year
-#       - Also display the "next Aid Year" between "the day admissions letters are released"
-#         and the last day of Summer term. The admissions-release day is not available in the
-#         campus DB, and so it is maintained in the CalCentral application DB.
-
 module Berkeley
   class Terms
     include ActiveAttrModel, ClassLogger, DatedFeed
@@ -112,8 +90,6 @@ module Berkeley
       # Do initial term parsing.
       terms_array = fetch_terms_from_api
 
-      merge_terms_from_legacy_db terms_array if Settings.features.allow_legacy_fallback
-
       # Classify and map terms.
       terms_array.each do |term|
         terms[term.slug] = term
@@ -175,7 +151,7 @@ module Berkeley
     end
 
     def fetch_terms_from_api
-      # Unlike the legacy database view, the HubTerm API does not support bulk queries. We have to
+      # The HubTerm API does not support bulk queries. We have to
       # loop through enough API calls to find:
       #   - Current term (if any)
       #   - Next term
@@ -183,7 +159,7 @@ module Berkeley
       #   - Previous term
       #   - Previous term before the previous term
       #   - ... and so on until we reach either the oldest configured term or the legacy_cutoff configured term.
-      # For backwards compatibility, we will stash the Term objects in descending chronological order.
+      # We stash the Term objects in descending chronological order.
       # Because there is a possibility that no academic term is current today, the loop starts from the next term.
       cs_terms = []
       # If hub term API is disabled, load terms from json file if enabled
@@ -199,7 +175,7 @@ module Berkeley
         logger.error "No Next term found from HubTerm::Proxy; no non-legacy academic terms are available"
       else
         term = Berkeley::Term.new.from_cs_api(feed)
-        cs_terms << term unless term.legacy? && Settings.features.allow_legacy_fallback
+        cs_terms << term
         term_date = term.end.to_date.to_s
         if (next_after_next = HubTerm::Proxy.new(temporal_position: HubTerm::Proxy::NEXT_TERM, as_of_date: term_date).get_term)
           cs_terms.unshift Berkeley::Term.new.from_cs_api(next_after_next)
@@ -209,25 +185,12 @@ module Berkeley
           feed = HubTerm::Proxy.new(temporal_position: HubTerm::Proxy::PREVIOUS_TERM, as_of_date: term_date).get_term
           break unless feed.present?
           term = Berkeley::Term.new.from_cs_api(feed)
-          break if term.legacy? && Settings.features.allow_legacy_fallback
           @sis_current_term = term if term.sis_current_term?
           cs_terms << term
           break if term.slug == @oldest
         end
       end
       cs_terms
-    end
-
-    def merge_terms_from_legacy_db(terms)
-      CampusOracle::Queries.terms.each do |db_term|
-        term = Term.new(db_term)
-        if term.legacy? || @hub_api_disabled
-          @sis_current_term ||= term if term.legacy_sis_term_status == 'CT'
-          terms << term
-        end
-        break if term.slug == @oldest
-      end
-      terms
     end
 
     # True if the current term in CalCentral UX is not the official "current term" in SIS.
@@ -246,7 +209,6 @@ module Berkeley
         legacy_terms = grouped[true]
         sisedo_terms = grouped[false]
       end
-      return {:legacy => legacy_terms, :sisedo => sisedo_terms} if Settings.features.allow_legacy_fallback
       {:legacy => nil, :sisedo => terms}
     end
 
