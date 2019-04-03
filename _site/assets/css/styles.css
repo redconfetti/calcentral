@@ -1,0 +1,18 @@
+.content {
+  grid-column: 2 / 3; }
+
+body {
+  background-color: #EEEEEE; }
+
+.main {
+  display: grid;
+  grid-column-gap: 12px;
+  grid-template-columns: 200px 1fr; }
+
+.sidebar {
+  background-color: #3B7EA1;
+  grid-column: 1 / 2;
+  height: 100%; }
+
+.sidebar--header {
+  margin: 0 0 12px 0; }
