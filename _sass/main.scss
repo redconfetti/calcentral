@@ -1,5 +1,10 @@
 body {
-  background-color: $gray;
+  background-color: $background;
+  font-family: arial;
+}
+
+h1 {
+  color: $header-main
 }
 
 .main {

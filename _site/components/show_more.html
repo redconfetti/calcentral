@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CalCentral Styleguide</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+  </head>
+  <body>
+    <div class="main">
+      <div class="sidebar">
+  <h3 class="sidebar--header">Components</h3>
+  <ul>
+    
+      <li>
+        <a href="/components/show_more.html">
+          ShowMore
+        </a>
+      </li>
+    
+      <li>
+        <a href="/components/spinner.html">
+          Spinner
+        </a>
+      </li>
+    
+  </ul>
+</div>
+      <div class="component">
+  <h1>ShowMore</h1>
+  <p>The ShowMore component is used to expand content based on a user’s click.</p>
+
+<p><strong>Unexpanded:</strong></p>
+
+<p><img src="../assets/images/ShowMoreUnexpanded.png" alt="ShowMoreUnexpanded" /></p>
+
+<p><strong>Expanded:</strong></p>
+
+<p><img src="../assets/images/ShowMoreExpanded.png" alt="ShowMoreExpanded" /></p>
+
+<h2 id="props">Props</h2>
+<ul>
+  <li>clickHandler: Function (required)</li>
+  <li>expanded: Boolean (required)</li>
+  <li>text: String (required)</li>
+  <li>view: Node (required)</li>
+</ul>
+
+<h4 id="clickhandler">clickHandler</h4>
+<p>Function that handles the callback when the user clicks on the ShowMore button. Usually will update a component’s state - specifically the boolean that is passed down to <code class="highlighter-rouge">expanded</code>.</p>
+
+<h4 id="expanded">expanded</h4>
+<p>Boolean that controls whether or not the content within ShowMore is expanded.</p>
+
+<h4 id="text">text</h4>
+<p>String used to signify the text of the ShowMore button.</p>
+
+<h4 id="view">view</h4>
+<p>A React component used as the expanded div of the ShowMore component.</p>
+
+</div>
+    </div>
+  </body>
+</html>
