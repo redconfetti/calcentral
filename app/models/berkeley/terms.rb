@@ -52,7 +52,6 @@ module Berkeley
       options.reverse_merge!(
         fake_now: Settings.terms.fake_now,
         oldest: Settings.terms.oldest,
-        hub_api_disabled: !Settings.features.hub_term_api
       )
       Rails.logger.debug "options: #{options.inspect}"
       smart_fetch_from_cache(force_write: options[:force]) do
@@ -99,7 +98,6 @@ module Berkeley
     def initialize(options)
       @current_date = options[:fake_now] || DateTime.now
       @oldest = options[:oldest]
-      @hub_api_disabled = options[:hub_api_disabled]
     end
 
     def init
@@ -186,14 +184,13 @@ module Berkeley
       # For backwards compatibility, we will stash the Term objects in descending chronological order.
       # Because there is a possibility that no academic term is current today, the loop starts from the next term.
       cs_terms = []
-      # If hub term API is disabled, load terms from json file if enabled
-      if @hub_api_disabled
-        if Settings.terms.use_term_definitions_json_file
-          return load_terms_from_file
-        else
-          return load_terms_from_edo_db
-        end
+
+      if Settings.terms.use_term_definitions_json_file
+        return load_terms_from_file
+      else
+        return load_terms_from_edo_db
       end
+
       feed = HubTerm::Proxy.new(temporal_position: HubTerm::Proxy::NEXT_TERM).get_term
       if feed.blank?
         logger.error "No Next term found from HubTerm::Proxy; no non-legacy academic terms are available"
@@ -221,7 +218,7 @@ module Berkeley
     def merge_terms_from_legacy_db(terms)
       CampusOracle::Queries.terms.each do |db_term|
         term = Term.new(db_term)
-        if term.legacy? || @hub_api_disabled
+        if term.legacy?
           @sis_current_term ||= term if term.legacy_sis_term_status == 'CT'
           terms << term
         end
