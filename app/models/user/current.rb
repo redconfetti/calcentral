@@ -45,5 +45,35 @@ module User
     def user_attributes
       @user_attributes ||= User::UserAttributes.new(self)
     end
+
+    def student_attributes
+      @student_attributes ||= User::Academics::StudentAttributes.new(self)
+    end
+
+    def term_registrations
+      @term_registrations ||= User::Academics::TermRegistrations.new(self)
+    end
+
+    def status_and_holds
+      @status_and_holds ||= User::Academics::StatusAndHolds.new(self)
+    end
+
+    def student_groups
+      @student_groups ||= User::Academics::StudentGroups.new(self)
+    end
+
+    def matriculated?
+      !affiliations.matriculated_but_exluded? && affiliations.not_registered?
+    end
+
+    def is_student?
+      nil
+    end
+
+    private
+
+    def affiliations
+      @affiliations ||= User::Affiliations.new(self)
+    end
   end
 end

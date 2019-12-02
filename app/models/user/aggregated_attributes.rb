@@ -1,5 +1,6 @@
 module User
   class AggregatedAttributes < UserSpecificModel
+    # TODO: Deprecate this in favor of User::UserAttributes
     include Cache::CachedFeed
     include Cache::UserCacheExpiry
     include CampusSolutions::ProfileFeatureFlagged
