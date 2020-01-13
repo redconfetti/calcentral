@@ -17,7 +17,6 @@ describe EdoOracle::Queries do
     allow(Settings.edodb).to receive(:fake).and_return false
     allow(Settings.terms).to receive(:fake_now).and_return nil
     allow(Settings.terms).to receive(:use_term_definitions_json_file).and_return true
-    allow(Settings.features).to receive(:hub_term_api).and_return false
   end
 
   it_behaves_like "an Oracle driven data source" do
@@ -189,9 +188,6 @@ describe EdoOracle::Queries do
       end
     end
     context "when constrained by terms" do
-      before do
-        allow(Settings.features).to receive(:hub_term_api).and_return true
-      end
       let(:term) do
         {
           "term_yr" => "2017",

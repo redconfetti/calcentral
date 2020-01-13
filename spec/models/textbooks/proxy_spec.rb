@@ -64,7 +64,6 @@ describe Textbooks::Proxy do
 
       context 'course catalog with fewer than three characters' do
         before do
-          allow(Settings.features).to receive(:hub_term_api).and_return false
           allow(Settings.terms).to receive(:legacy_cutoff).and_return(legacy_terms_cutoff)
         end
         let(:course_catalog) { '1A' }

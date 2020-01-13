@@ -309,13 +309,6 @@ verify_hub 'profile' true \
   "/v1/students/${CAMPUS_SOLUTIONS_ID}/work-experiences" \
   "/v2/students/${CAMPUS_SOLUTIONS_ID}?inc-acad=true&inc-regs=true"
 
-# Custom credentials are needed for the Hub's Term API
-export HUB_APP_ID="${yml_hub_term_proxy_app_id//\'}"
-export HUB_APP_KEY="${yml_hub_term_proxy_app_key//\'}"
-
-verify_hub 'hub_term_api' "${yml_features_hub_term_api}" \
-  "${yml_hub_term_proxy_base_url//\'}?temporal-position=Next"
-
 if [ "${APP_MODE}" == "calcentral" ] ; then
   # Custom credentials are needed for the Hub's Enrollment API
   export HUB_APP_ID="${yml_hub_enrollments_proxy_app_id//\'}"

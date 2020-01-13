@@ -1,7 +1,4 @@
 describe MyClasses::Campus do
-  before do
-    allow(Settings.features).to receive(:hub_term_api).and_return false
-  end
   let(:user_id) {rand(99999).to_s}
   let(:catid) {"#{rand(999)}B"}
   let(:course_code) { "ECON #{catid}" }

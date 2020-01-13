@@ -1,9 +1,4 @@
 describe MyAcademics::Teaching do
-
-  before do
-    allow(Settings.features).to receive(:hub_term_api).and_return false
-  end
-
   let(:instance) { described_class.new(uid) }
   let(:feed) { {}.tap { |feed| instance.merge feed } }
   let(:teaching) { feed[:teachingSemesters] }

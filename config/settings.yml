@@ -87,8 +87,6 @@ terms:
   # Can also be used to force selection of a "current term" different
   # from the default.
   fake_now:
-  # If hub term API is disabled (see hub_term_api in features flags),
-  # use /public/json/terms.json or this file
   use_term_definitions_json_file: false
   term_definitions_json_file:
 
@@ -178,12 +176,6 @@ financials_proxy:
   base_url: 'https://apis.berkeley.edu/uat/sis/v2/cfv/students'
   app_id: ''
   app_key: ''
-
-hub_term_proxy:
-  fake: false
-  app_id: ''
-  app_key: ''
-  base_url: 'https://apis.berkeley.edu/uat/sis/v1/terms'
 
 textbooks_proxy:
   fake: false
@@ -441,7 +433,6 @@ features:
   final_exam_schedule_student: false
   final_exam_schedule_instructor: false
   gpa_calculator: true
-  hub_term_api: true
   ldap_student_affiliations: false
   legacy_caldap: true
   my_fin_aid: false

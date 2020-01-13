@@ -1,5 +1,5 @@
 application:
-  layer: "development"
+  layer: 'development'
 
 logger:
   level: <%= ENV['LOGGER_LEVEL'] || DEBUG %>
@@ -10,7 +10,7 @@ blog_latest_release_notes_feed_proxy:
   fake: true
 
 cache:
-  store: "memory"
+  store: 'memory'
   log_level: <%= Logger::DEBUG %>
 
 cal_link_proxy:
@@ -60,9 +60,6 @@ ist_jms:
   enabled: false
 
 eft_proxy:
-  fake: true
-
-hub_term_proxy:
   fake: true
 
 grading_period:

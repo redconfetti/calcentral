@@ -42,48 +42,6 @@ module Berkeley
       from_legacy_db(db_row) if db_row.present?
     end
 
-    def from_cs_api(api_feed)
-      # The code used to identify end date of drop/add period in the Terms API.
-      end_drop_add_code = '140'
-      @raw_source = api_feed
-      # The HubTerm API returns an array of matching terms, one for each applicable academic career. For general
-      # campus-wide reference, we pick the Undergraduate entry.
-      term_feed = api_feed.select {|t| t['academicCareer']['code'] == 'UGRD'}.first
-      if term_feed.nil?
-        logger.error "No term match found for academicCareer UGRD in feed #{api_feed}; will use first term instead"
-        term_feed = api_feed.first
-      end
-      @campus_solutions_id = term_feed['id']
-      (term_yr, @code) = TermCodes.from_edo_id(@campus_solutions_id).values
-      @year = term_yr.to_i
-      @slug = TermCodes.to_slug(@year, @code)
-      @name = Berkeley::TermCodes.codes[@code.to_sym]
-      @start = term_feed['beginDate'].to_date.in_time_zone.to_datetime
-      @end = term_feed['endDate'].to_date.in_time_zone.to_datetime.end_of_day
-      @is_sis_current_term = term_feed['temporalPosition'] == 'Current'
-      if @code == 'C'
-        @is_summer = true
-        @classes_start = @start
-        @classes_end = @end
-        @instruction_end = @end
-        @end_drop_add = false
-      else
-        @is_summer = false
-        session = term_feed['sessions'].first
-        @classes_start = session['beginDate'].to_date.in_time_zone.to_datetime
-        @instruction_end = session['endDate'].to_date.in_time_zone.to_datetime.end_of_day
-        @classes_end = @instruction_end.advance(days: -7)
-        if (timePeriods = session['timePeriods']).present?
-          timePeriods.each do |timePeriod|
-            if timePeriod['period']['code'] == end_drop_add_code
-              @end_drop_add = timePeriod['endDate']
-            end
-          end
-        end
-      end
-      self
-    end
-
     def from_json_file(term)
       @campus_solutions_id = term['campus_solutions_id']
       @year = term['year'].to_i
@@ -124,7 +82,7 @@ module Berkeley
         @end_drop_add = false
       else
         @is_summer = false
-        @classes_start = db_row['class_begin_date'].to_date.in_time_zone.to_datetime  if db_row['class_begin_date'].present?
+        @classes_start = db_row['class_begin_date'].to_date.in_time_zone.to_datetime if db_row['class_begin_date'].present?
         @instruction_end = db_row['instruction_end_date'].to_date.in_time_zone.to_datetime if db_row['instruction_end_date'].present?
         @classes_end = db_row['class_end_date'].to_date.in_time_zone.to_datetime if db_row['class_end_date'].present?
         @end_drop_add =db_row['end_drop_add_date'] if db_row['end_drop_add_date'].present?
@@ -167,10 +125,6 @@ module Berkeley
 
     def <=>(other_term)
       campus_solutions_id <=> other_term.campus_solutions_id
-    end
-
-    def sis_current_term?
-      @is_sis_current_term
     end
 
     def legacy?
