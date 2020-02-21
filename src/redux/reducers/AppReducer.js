@@ -22,6 +22,46 @@ import SirStatusReducer from './SirStatusReducer';
 import StandingsReducer from './StandingsReducer';
 import StatusAndHoldsReducer from './StatusAndHoldsReducer';
 import StatusReducer from './StatusReducer';
+import MyUpNextReducer from './MyUpNextReducer';
+
+import {
+  FETCH_AGREEMENTS_START,
+  FETCH_AGREEMENTS_SUCCESS,
+  FETCH_AGREEMENTS_FAILURE,
+  FETCH_CHECKLIST_ITEMS_START,
+  FETCH_CHECKLIST_ITEMS_SUCCESS,
+  FETCH_CHECKLIST_ITEMS_FAILURE,
+  FETCH_WEB_MESSAGES_START,
+  FETCH_WEB_MESSAGES_SUCCESS,
+  FETCH_WEB_MESSAGES_FAILURE,
+  FETCH_BCOURSES_TODOS_START,
+  FETCH_BCOURSES_TODOS_SUCCESS,
+  FETCH_BCOURSES_TODOS_FAILURE,
+} from 'redux/action-types';
+
+const myChecklistItems = buildDataReducer(
+  FETCH_CHECKLIST_ITEMS_START,
+  FETCH_CHECKLIST_ITEMS_SUCCESS,
+  FETCH_CHECKLIST_ITEMS_FAILURE
+);
+
+const myWebMessages = buildDataReducer(
+  FETCH_WEB_MESSAGES_START,
+  FETCH_WEB_MESSAGES_SUCCESS,
+  FETCH_WEB_MESSAGES_FAILURE
+);
+
+const myAgreements = buildDataReducer(
+  FETCH_AGREEMENTS_START,
+  FETCH_AGREEMENTS_SUCCESS,
+  FETCH_AGREEMENTS_FAILURE
+);
+
+const myBCoursesTodos = buildDataReducer(
+  FETCH_BCOURSES_TODOS_START,
+  FETCH_BCOURSES_TODOS_SUCCESS,
+  FETCH_BCOURSES_TODOS_FAILURE
+);
 
 import {
   FETCH_AGREEMENTS_START,
@@ -84,6 +124,7 @@ const AppReducer = combineReducers({
   myStatusAndHolds: StatusAndHoldsReducer,
   myTransferCredit: TransferCreditReducer,
   sirStatus: SirStatusReducer,
+  myUpNext: MyUpNextReducer,
   myChecklistItems,
   myWebMessages,
   myAgreements,
