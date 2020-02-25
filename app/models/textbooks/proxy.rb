@@ -19,6 +19,11 @@ module Textbooks
     end
 
     def format_course_catalog(course_catalog)
+      terms = Berkeley::Terms.fetch
+      puts "terms.campus.class: #{terms.campus.class}"
+      puts "terms.campus: #{terms.campus.inspect}"
+      puts "terms.campus.keys: #{terms.campus.keys.inspect}"
+      puts "@slug: #{@slug.inspect}"
       if Berkeley::Terms.fetch.campus[@slug].legacy?
         course_catalog
       else

@@ -29,6 +29,15 @@ describe Textbooks::Proxy do
     )
   end
 
+  let(:fall_2013_term) do
+    double(:fall_2013_term, :legacy? => false)
+  end
+  let(:berkeley_campus_terms) { {'fall-2013' => fall_2013_term} }
+  let(:berkeley_terms) { double(:berkeley_terms, campus: berkeley_campus_terms) }
+  before do
+    allow(Berkeley::Terms).to receive(:fetch).and_return(berkeley_terms)
+  end
+
   describe '#get' do
     subject { proxy.get }
 
