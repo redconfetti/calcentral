@@ -933,5 +933,31 @@ module EdoOracle
       SQL
       result.first
     end
+
+    # ---------------------------------------------------------------------------
+    # New Queries
+    # ---------------------------------------------------------------------------
+
+    def self.get_instructor_assignments(campus_uid)
+      safe_query <<-SQL
+        SELECT
+          "term-id" AS term_id,
+          "session-id" AS session_id,
+          "cs-course-id" AS cs_course_id,
+          "offeringNumber" AS offering_number,
+          "number" AS section_number,
+          "campus-uid" AS ldap_uid,
+          TRIM("formattedName") AS person_name,
+          TRIM("givenName") AS first_name,
+          TRIM("familyName") AS last_name,
+          "role-code" AS role_code,
+          "role-descr" AS role_description,
+          "gradeRosterAccess" AS grade_roster_access,
+          "printInScheduleOfClasses" AS print_in_schedule
+        FROM SISEDO.ASSIGNEDINSTRUCTORV00_VW
+        WHERE "campus-uid" = '#{campus_uid}'
+      SQL
+    end
+
   end
 end
