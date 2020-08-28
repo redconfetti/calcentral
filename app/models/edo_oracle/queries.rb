@@ -959,5 +959,32 @@ module EdoOracle
       SQL
     end
 
+    def self.get_class_sections(cs_course_id, offering_number, section_number, term_id, session_id = 1)
+      safe_query <<-SQL
+        SELECT
+          "id" AS section_id,
+          "term-id" AS term_id,
+          "session-id" AS session_id,
+          "cs-course-id" AS cs_course_id,
+          "offeringNumber" AS offering_number,
+          "primary" AS "primary",
+          "sectionNumber" AS section_num,
+          "component-code" as instruction_format,
+          TO_CHAR("primaryAssociatedSectionId") as primary_associated_section_id,
+          "displayName" AS section_display_name,
+          "topic-descr" AS topic_description,
+          "printInScheduleOfClasses" AS print_in_schedule_of_classes,
+          "maxEnroll" AS enroll_limit
+        FROM SISEDO.CLASSSECTIONALLV01_MVW
+        WHERE
+          "cs-course-id" = '#{cs_course_id}' AND
+          "offeringNumber" = #{offering_number} AND
+          "sectionNumber" = '#{section_number}' AND
+          "term-id" = '#{term_id}' AND
+          "session-id" = '#{session_id}' AND
+          "status-code" IN ('A','S')
+      SQL
+    end
+
   end
 end
