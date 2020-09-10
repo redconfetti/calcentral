@@ -1,6 +1,15 @@
 describe MyClassEnrollmentsController do
   let(:user_id) { '12345' }
+  let(:class_enrollments_feed) do
+    {
+      enrollmentTermInstructionTypeDecks: [],
+      enrollmentTermInstructions: [],
+      enrollmentTermAcademicPlanner: {},
+    }
+  end
+  let(:class_enrollments_object) { double(get_feed_as_json: class_enrollments_feed) }
   before do
+    allow(MyAcademics::ClassEnrollments).to receive(:from_session).and_return(class_enrollments_object)
     allow(Settings.features).to receive(:cs_enrollment_card).and_return true
     allow_any_instance_of(HubEdos::UserAttributes).to receive(:has_role?).with(:student).and_return true
     allow_any_instance_of(HubEdos::UserAttributes).to receive(:has_role?).with(:undergrad).and_return true
@@ -27,11 +36,7 @@ describe MyClassEnrollmentsController do
     let(:campus_solutions_id) {random_id}
     include_context 'delegated access'
     context 'enrollments-only access' do
-      let(:privileges) do
-        {
-          viewEnrollments: true
-        }
-      end
+      let(:privileges) { {viewEnrollments: true} }
       it 'allows access' do
         get :get_feed
         assert_response :success
@@ -40,11 +45,7 @@ describe MyClassEnrollmentsController do
       end
     end
     context 'financial access' do
-      let(:privileges) do
-        {
-          financial: true
-        }
-      end
+      let(:privileges) { {financial: true} }
       it 'denies all access' do
         get :get_feed
         expect(response.status).to eq 403

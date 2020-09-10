@@ -15,7 +15,7 @@ module MyAcademics
           midterm: nil,
           law: nil
         }
-        campus_links = Links::MyCampusLinks.new.get_feed
+        campus_links = Links.new.campus_links
         grading_info_links = campus_links['links'].select do |link|
           link['categories'].index({"topcategory"=>"Faculty", "subcategory"=>"Grading"}).present?
         end

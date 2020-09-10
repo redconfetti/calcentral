@@ -10,7 +10,7 @@ module MyAcademics
     ENROLLMENT_DECK_KEYS = ['fpf', 'haasFullTimeMba', 'haasEveningWeekendMba', 'haasExecMba', 'summerVisitor', 'courseworkOnly', 'law', 'concurrent']
 
     def get_feed_internal
-      return {} unless is_feature_enabled && user_is_student?
+      return {} unless is_feature_enabled && user.is_student?
       HashConverter.camelize({
         enrollmentTermInstructionTypeDecks: get_career_term_role_decks,
         enrollmentTermInstructions: get_enrollment_term_instructions,
@@ -18,7 +18,7 @@ module MyAcademics
         hasHolds: MyAcademics::MyAcademicStatus.has_holds?(@uid),
         links: get_links,
         messages: get_messages,
-        enrollmentTerms: user.enrollment_terms.as_json
+        enrollmentTerms: User::Academics::Enrollment::Terms.new(user).as_json
       })
     end
 
@@ -183,24 +183,7 @@ module MyAcademics
     end
 
     def get_links
-      cs_links = {}
-
-      campus_solutions_link_settings = [
-        { feed_key: :uc_add_class_enrollment, cs_link_key: 'UC_CX_GT_SSCNTENRL_ADD', cs_link_params: {} },
-        { feed_key: :uc_edit_class_enrollment, cs_link_key: 'UC_CX_GT_SSCNTENRL_UPD', cs_link_params: {} },
-        { feed_key: :uc_view_class_enrollment, cs_link_key: 'UC_CX_GT_SSCNTENRL_VIEW', cs_link_params: {} },
-        { feed_key: :request_late_class_changes, cs_link_key: 'UC_CX_GT_GRADEOPT_ADD', cs_link_params: {} },
-        { feed_key: :cross_campus_enroll, cs_link_key: 'UC_CX_STDNT_CRSCAMPENR', cs_link_params: {} },
-      ]
-      late_ugrd_enroll_action_link = { feed_key: :late_ugrd_enroll_action, cs_link_key: 'UC_CX_GT_SRLATEDROP_ADD' }
-      campus_solutions_link_settings.append(late_ugrd_enroll_action_link) if can_see_late_ugrd_enroll_action_link?
-
-      campus_solutions_link_settings.each do |setting|
-        link = fetch_link(setting[:cs_link_key], setting[:cs_link_params])
-        cs_links[setting[:feed_key]] = link unless link.blank?
-      end
-
-      cs_links
+      User::Academics::Enrollment::Links.new(user).links
     end
 
     def get_messages
@@ -209,26 +192,6 @@ module MyAcademics
     end
 
     private
-
-    def user_is_student?
-      HubEdos::UserAttributes.new(user_id: @uid).has_role?(:student)
-    end
-
-    def user_is_undergrad?
-      HubEdos::UserAttributes.new(user_id: @uid).has_role?(:undergrad)
-    end
-
-    def can_see_late_ugrd_enroll_action_link?
-      current_academic_roles = MyAcademics::MyAcademicRoles.new(@uid).get_feed.try(:[], :current)
-      user_is_undergrad? && (
-        current_academic_roles["lettersAndScience"] ||
-        current_academic_roles["ugrdEngineering"] ||
-        current_academic_roles["ugrdEnvironmentalDesign"] ||
-        current_academic_roles["ugrdNaturalResources"] ||
-        current_academic_roles["ugrdHaasBusiness"] ||
-        current_academic_roles["degreeSeeking"]
-      )
-    end
 
     def user
       @user ||= User::Current.new(@uid)

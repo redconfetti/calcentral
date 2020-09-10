@@ -33,15 +33,15 @@ RSpec.configure do |config|
   # RSpec 3 upgrade: Deprecation warnings will be errors BUT we support deprecated 'should'.
   config.raise_errors_for_deprecations!
   config.infer_spec_type_from_file_location!
-  config.mock_with :rspec do |mocks|
-    mocks.yield_receiver_to_any_instance_implementation_blocks = false
-    mocks.patch_marshal_to_support_partial_doubles = true
+  config.mock_with :rspec do |c|
+    c.yield_receiver_to_any_instance_implementation_blocks = false
+    c.patch_marshal_to_support_partial_doubles = true
+    c.allow_message_expectations_on_nil = false
+    c.syntax = [:should, :expect]
   end
   config.expect_with :rspec do |c|
     c.syntax = [:should, :expect]
-  end
-  config.mock_with :rspec do |c|
-    c.syntax = [:should, :expect]
+    c.on_potential_false_positives = :raise
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

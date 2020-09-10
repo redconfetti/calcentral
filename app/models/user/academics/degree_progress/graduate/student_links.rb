@@ -28,7 +28,7 @@ module User
           end
 
           def apr_law_student?
-            current_user_roles.to_set.intersect? Set[
+            apr_law_student_roles = [
               :doctorScienceLaw,
               :jurisSocialPolicyMasters,
               :jurisSocialPolicyPhC,
@@ -36,6 +36,7 @@ module User
               :lawJdCdp,
               :masterOfLawsLlm
             ]
+            (user.current_academic_roles & apr_law_student_roles).any?
           end
 
           def apr_grad_student?
@@ -71,9 +72,6 @@ module User
             plan.try(:[], 'statusInPlan').try(:[], 'status').try(:[], 'code') != 'CM'
           end
 
-          def current_user_roles
-            @current_user_roles ||= User::Academics::Roles.new(user).current_user_roles
-          end
         end
       end
     end

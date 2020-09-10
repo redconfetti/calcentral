@@ -1,6 +1,47 @@
 <?xml version="1.0"?>
 <UC_LINK_RESOURCES>
   <Link>
+    <URL_ID>UC_CX_GT_SRLATEDROP_ADD</URL_ID>
+    <Description>Letters and Science Late Schedule Change Request</Description>
+    <HOVER_OVER_TEXT>Letters and Science Late Schedule Change Request</HOVER_OVER_TEXT>
+    <PROPERTIES type="array">
+      <PROPERTY>
+        <NAME>CALCENTRAL</NAME>
+        <value>FORM</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>LINK_DESCRIPTION</NAME>
+        <value>Students in the College of Letters &amp; Science can use this form to drop a class or change their grading option. This form closes December 4, 2020 11:59 pm PST.</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>LINK_DESCRIPTION_DISPLAY</NAME>
+        <value>Y</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>NEW_WINDOW</NAME>
+        <value>Y</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROM</NAME>
+        <value>CalCentral</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROMLINK</NAME>
+        <value>https://calcentral-sis-dev-01.ist.berkeley.edu/</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROMTEXT</NAME>
+        <value>CalCentral</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>URI_TYPE</NAME>
+        <value>PL</value>
+      </PROPERTY>
+    </PROPERTIES>
+    <URL>https://bcsdev.is.berkeley.edu/psp/bcsdev/EMPLOYEE/SA/c/G3FRAME.G3SEARCH_FL.GBL?&amp;G3FORM_FAMILY=STUDENT&amp;G3FORM_TYPE=SRLATEDROP&amp;G3FORM_CONDITION=Default&amp;G3FORM_TASK=ADD</URL>
+    <COMMENTS></COMMENTS>
+  </Link>
+  <Link>
     <URL_ID>UC_CX_WAITLIST_ACAD_GUIDE_CLS</URL_ID>
     <Description>Review Reserved Seats</Description>
     <HOVER_OVER_TEXT>View class schedule and reserve seating rules</HOVER_OVER_TEXT>

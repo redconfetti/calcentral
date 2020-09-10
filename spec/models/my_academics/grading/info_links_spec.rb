@@ -45,10 +45,8 @@ describe MyAcademics::Grading::InfoLinks do
     ]
   end
 
-  before do
-    my_campus_links_stub = double(:links_my_campus_links, get_feed: campus_links)
-    allow(Links::MyCampusLinks).to receive(:new).and_return(my_campus_links_stub)
-  end
+  let(:links) { double(campus_links: campus_links) }
+  before { allow(Links).to receive(:new).and_return(links) }
 
   describe '.fetch' do
     it 'returns faculty grading info links' do

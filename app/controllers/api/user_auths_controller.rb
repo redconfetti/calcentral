@@ -30,7 +30,7 @@ class Api::UserAuthsController < Api::BaseController
   end
 
   def update
-    if user_auth.update_attributes user_auth_params
+    if user_auth.update user_auth_params
       render json: @user_auth, status: :ok
     else
       render json: @user_auth.errors, status: :unprocessable_entity

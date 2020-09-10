@@ -20,8 +20,44 @@ module User
         ldap_person.affiliations.include? 'STUDENT-TYPE-NOT REGISTERED'
       end
 
+      def is_released_admit?
+        ihub_affiliations.active_admit_affiliation_present?
+      end
+
+      def is_advisor?
+        ihub_affiliations.active_advisor_affiliation_present?
+      end
+
+      def is_applicant?
+        ihub_affiliations.active_applicant_affiliation_present?
+      end
+
+      def is_graduate?
+        ihub_affiliations.active_graduate_affiliation_present?
+      end
+
+      def is_law_student?
+        ihub_affiliations.active_law_affiliation_present?
+      end
+
+      def is_pre_sir?
+        ihub_affiliations.active_pre_sir_affiliation_present?
+      end
+
       def is_student?
-        ihub_affiliations.student_affiliation_present?
+        ihub_affiliations.active_student_affiliation_present?
+      end
+
+      def is_ex_student?
+        ihub_affiliations.inactive_student_affiliation_present?
+      end
+
+      def is_uc_extension_student?
+        ihub_affiliations.active_uc_extension_affiliation_present?
+      end
+
+      def is_undergraduate?
+        ihub_affiliations.active_undergraduate_affiliation_present?
       end
 
       def ihub_affiliations

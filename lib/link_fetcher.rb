@@ -1,3 +1,4 @@
+# TODO: Migrate dependencies of this to Links and Link models
 module LinkFetcher
   extend self
   include ClassLogger

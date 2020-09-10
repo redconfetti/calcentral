@@ -836,6 +836,29 @@ module EdoOracle
       SQL
     end
 
+    def self.get_terms
+      safe_query <<-SQL
+        SELECT ACADCAREER_CODE as career_code,
+          TERM_ID as id,
+          TERM_TYPE as type,
+          TERM_YEAR as year,
+          TERM_CODE as code,
+          TERM_DESCR as description,
+          TERM_BEGIN_DT as begin_date,
+          TERM_END_DT as end_date,
+          CLASS_BEGIN_DT as class_begin_date,
+          CLASS_END_DT as class_end_date,
+          INSTRUCTION_END_DT as instruction_end_date,
+          GRADES_ENTERED_DT as grades_entered_date,
+          END_DROP_ADD_DT as end_drop_add_date,
+          IS_SUMMER as is_summer
+        FROM  SISEDO.CLC_TERMV00_VW
+        WHERE INSTITUTION = '#{UC_BERKELEY}' AND
+          TERM_TYPE IS NOT NULL
+        ORDER BY TERM_ID DESC
+      SQL
+    end
+
     def self.get_undergrad_terms
       safe_query <<-SQL
         SELECT ACADCAREER_CODE as career_code,

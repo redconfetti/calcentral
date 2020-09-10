@@ -21,7 +21,7 @@ module HubEdos
             get
           end
 
-          def get_inactive_completed
+          def get_all
             @include_inactive_programs = true
             @include_completed_programs = true
             get
