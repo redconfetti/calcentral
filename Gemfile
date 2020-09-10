@@ -175,7 +175,13 @@ group :development, :test do
   # https://test-unit.github.io/
   gem 'test-unit'
 
+  # Generates objects for testing purposes
+  # https://github.com/thoughtbot/factory_bot_rails
   gem 'factory_bot_rails'
+
+  # Generates fake names, emails, etc.
+  # https://github.com/faker-ruby/faker
+  gem 'faker'
 end
 
 group :development do

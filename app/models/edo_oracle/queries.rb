@@ -185,7 +185,7 @@ module EdoOracle
            AND CAR.ACAD_CAREER = LAW.ACAD_CAREER
            AND CAR.INSTITUTION = LAW.INSTITUTION
           WHERE CAR.CAMPUS_ID = '#{person_id}'
-          AND CAR.ACAD_CAREER <> 'UCBX'
+          AND CAR.ACAD_CAREER <> '#{::Careers::CONCURRENT}'
             #{and_institution('CAR')}
       SQL
     end
@@ -247,7 +247,7 @@ module EdoOracle
           TRIM(TO_CHAR(ENR.DROP_CLASS_IF_ENRL, 9999999)) AS drop_class_if_enrl,
           TO_CHAR(ENR.LAST_ENRL_DT_STMP, 'MON DD, YYYY') AS last_enrl_dt_stmp,
           CASE
-            WHEN ENR.CRSE_CAREER = 'LAW'
+            WHEN ENR.CRSE_CAREER = '#{::Careers::LAW}'
             THEN ENR.RQMNT_DESIGNTN
             ELSE NULL
           END AS RQMNT_DESIGNTN,
@@ -709,7 +709,7 @@ module EdoOracle
           SISEDO.APPLICANT_ADMIT_DATAV00_VW
         WHERE
           STUDENT_ID = '#{student_id}' AND
-          APPLICATION_CENTER = 'UGRD'
+          APPLICATION_CENTER = '#{::Careers::UNDERGRADUATE}'
         ORDER BY APPLICATION_NBR DESC
       SQL
       result.first
@@ -725,7 +725,7 @@ module EdoOracle
         WHERE
           STUDENT_ID = '#{student_id}' AND
           APPLICATION_NBR = '#{application_nbr}' AND
-          APPLICATION_CENTER = 'UGRD'
+          APPLICATION_CENTER = '#{::Careers::UNDERGRADUATE}'
       SQL
       result.first
     end
@@ -754,7 +754,7 @@ module EdoOracle
           SISEDO.STUDENT_ACAD_STNDNGV00_VW
         WHERE
           STUDENT_ID = '#{student_id}' AND
-          ACADCAREER_CODE = 'UGRD'
+          ACADCAREER_CODE = '#{::Careers::UNDERGRADUATE}'
       SQL
     end
 
@@ -836,6 +836,29 @@ module EdoOracle
       SQL
     end
 
+    def self.get_terms
+      safe_query <<-SQL
+        SELECT ACADCAREER_CODE as academic_career_code,
+          TERM_ID as id,
+          TERM_TYPE as type,
+          TERM_YEAR as year,
+          TERM_CODE as code,
+          TERM_DESCR as description,
+          TERM_BEGIN_DT as begin_date,
+          TERM_END_DT as end_date,
+          CLASS_BEGIN_DT as class_begin_date,
+          CLASS_END_DT as class_end_date,
+          INSTRUCTION_END_DT as instruction_end_date,
+          GRADES_ENTERED_DT as grades_entered_date,
+          END_DROP_ADD_DT as end_drop_add_date,
+          IS_SUMMER as is_summer
+        FROM  SISEDO.CLC_TERMV00_VW
+        WHERE INSTITUTION = '#{UC_BERKELEY}' AND
+          TERM_TYPE IS NOT NULL
+        ORDER BY TERM_ID DESC
+      SQL
+    end
+
     def self.get_undergrad_terms
       safe_query <<-SQL
         SELECT ACADCAREER_CODE as career_code,
@@ -854,7 +877,7 @@ module EdoOracle
           IS_SUMMER as is_summer
         FROM  SISEDO.CLC_TERMV00_VW
         WHERE INSTITUTION = '#{UC_BERKELEY}' AND
-          ACADCAREER_CODE = 'UGRD' AND
+          ACADCAREER_CODE = '#{::Careers::UNDERGRADUATE}' AND
           TERM_TYPE IS NOT NULL
         ORDER BY TERM_ID DESC
       SQL

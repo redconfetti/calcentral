@@ -2,14 +2,6 @@ module Berkeley
   module TermCodes
     extend self
 
-    SUMMER_SESSIONS = {
-      '6W1' => 'A',
-      '10W' => 'B',
-      '8W' => 'C',
-      '6W2' => 'D',
-      '3W' => 'E'
-    }
-
     def codes
       # UC Berkeley only offers Spring, Summer, and Fall courses. Before 1982, however, it was on the
       # same quarterly system as other UC campuses.
@@ -47,6 +39,7 @@ module Berkeley
       {:term_yr => legacy_term_yr, :term_cd => legacy_term_cd}
     end
 
+    # TODO: Deprecated. Use Term#code.
     def edo_id_to_code(edo_term_id)
       self.from_edo_id(edo_term_id).values_at(:term_yr, :term_cd).join '-'
     end

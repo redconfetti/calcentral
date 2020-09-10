@@ -2,27 +2,28 @@ describe MyAcademics::MyAcademicStatus do
   subject { described_class.new(random_id) }
   let(:academic_status_proxy) do
     double({
-      get: academic_status_response_active,
-      get_active_only: academic_status_response_active,
-      get_inactive_completed: academic_status_response_inactive,
+      get: academic_status_response_active_only,
+      active_only: academic_status_response_active_only,
+      all: academic_status_response_inactive,
     })
   end
 
-  let(:academic_status_response_active) { {statusCode: 200, feed: academic_status_feed_active, studentNotFound: nil} }
-  let(:academic_status_response_inactive) { {statusCode: 200, feed: academic_status_feed_inactive, studentNotFound: nil} }
-  let(:academic_status_feed_active) { {'academicStatuses' => [:activeStatus]} }
-  let(:academic_status_feed_inactive) { {'academicStatuses' => [:inactiveStatus, :completedStatus]} }
+  let(:academic_status_response_active_only) { {statusCode: 200, feed: academic_status_feed_active_only, studentNotFound: nil} }
+  let(:academic_status_response_inactive) { {statusCode: 200, feed: academic_status_feed_all, studentNotFound: nil} }
+  let(:academic_status_feed_active_only) { {'academicStatuses' => [:activeStatus]} }
+  let(:academic_status_feed_all) { {'academicStatuses' => [:activeStatus, :inactiveStatus, :completedStatus]} }
   before { allow(HubEdos::StudentApi::V2::Feeds::AcademicStatuses).to receive(:new).and_return(academic_status_proxy) }
 
   describe '#api_response' do
     context 'when api response does not contain academic statuses' do
-      let(:academic_status_feed_active) { {'academicStatuses' => nil } }
+      let(:academic_status_feed_active_only) { {'academicStatuses' => nil } }
+      let(:academic_status_feed_all) { {'academicStatuses' => [:inactiveStatus, :completedStatus]} }
       it 'returns inactive and completed response' do
         expect(subject.api_response[:feed]['academicStatuses']).to eq [:inactiveStatus, :completedStatus]
       end
     end
     context 'when api response contains academic statuses' do
-      let(:academic_status_feed_active) { {'academicStatuses' => [:activeStatus]} }
+      let(:academic_status_feed_active_only) { {'academicStatuses' => [:activeStatus]} }
       it 'returns active-only response' do
         expect(subject.api_response[:feed]['academicStatuses']).to eq [:activeStatus]
       end

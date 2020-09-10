@@ -69,7 +69,7 @@ module FinancialAid
     def shopping_sheet_link(aid_year, financial_aid_summary)
       group = financial_aid_summary.try(:[], 'sfa_ss_group')
       return nil unless group.present?
-      fetch_link('UC_CX_FA_SHOPPING_SHEET', {EMPLID: financial_aid_summary.try(:[], 'student_id'), AID_YEAR: aid_year, ACAD_CAREER: 'UGRD', INSTITUTION: INSTITUTION, SFA_SS_GROUP: group})
+      fetch_link('UC_CX_FA_SHOPPING_SHEET', {EMPLID: financial_aid_summary.try(:[], 'student_id'), AID_YEAR: aid_year, ACAD_CAREER: ::Careers::UNDERGRADUATE, INSTITUTION: INSTITUTION, SFA_SS_GROUP: group})
     end
 
     def aid_years

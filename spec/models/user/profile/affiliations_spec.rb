@@ -10,6 +10,18 @@ describe User::Profile::Affiliations do
     allow(CalnetLdap::Person).to receive(:get).with(user).and_return(calnet_ldap_person)
   end
 
+  its(:not_registered?) { should eq false }
+  its(:released_admit?) { should eq true }
+  its(:advisor?) { should eq false }
+  its(:applicant?) { should eq false }
+  its(:graduate?) { should eq false }
+  its(:law_student?) { should eq false }
+  its(:pre_sir?) { should eq false }
+  its(:student?) { should eq false }
+  its(:ex_student?) { should eq false }
+  its(:uc_extension_student?) { should eq false }
+  its(:undergraduate?) { should eq false }
+
   describe 'not_registered?' do
     context 'when student is registered' do
       let(:ldap_affiliations) { ['STUDENT-TYPE-REGISTERED'] }
@@ -24,11 +36,4 @@ describe User::Profile::Affiliations do
       end
     end
   end
-
-  # def not_registered?
-  #   ldap_person.affiliations.include? "STUDENT-TYPE-NOT REGISTERED"
-  # end
-  # def ldap_person
-  #   @ldap_person ||= CalnetLdap::Person.get(user)
-  # end
 end

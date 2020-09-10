@@ -92,7 +92,8 @@ module User
       end
 
       def term_name
-        @term_name ||= ::User::Academics::Term.new(term_id).to_english
+        # TODO: Replace User::Academics::Term with ::Terms
+        @term_name ||= ::User::Academics::Term.new(term_id).name
       end
 
       private

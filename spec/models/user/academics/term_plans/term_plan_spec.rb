@@ -5,7 +5,7 @@ describe User::Academics::TermPlans::TermPlan do
       'acad_career' => 'UGRD',
       'acad_career_descr' => 'Undergraduate',
       'acad_program' => 'UCLS',
-      'acad_plan' => '25000U',
+      'acad_plan' => '25000FPFU',
     }
   end
   subject { described_class.new(data) }
@@ -36,7 +36,19 @@ describe User::Academics::TermPlans::TermPlan do
 
   describe '#academic_plan_code' do
     it 'returns academic plan code' do
-      expect(subject.academic_plan_code).to eq '25000U'
+      expect(subject.academic_plan_code).to eq '25000FPFU'
+    end
+  end
+
+  describe '#academic_career_role' do
+    it 'returns academic career role string' do
+      expect(subject.academic_career_role).to eq 'ugrd'
+    end
+  end
+
+  describe '#academic_plan_roles' do
+    it 'returns academic plan role strings' do
+      expect(subject.academic_plan_roles).to eq ['fpf']
     end
   end
 
@@ -47,7 +59,7 @@ describe User::Academics::TermPlans::TermPlan do
       expect(result[:academicCareerCode]).to eq 'UGRD'
       expect(result[:academicCareerDescription]).to eq 'Undergraduate'
       expect(result[:academicProgramCode]).to eq 'UCLS'
-      expect(result[:academicPlanCode]).to eq '25000U'
+      expect(result[:academicPlanCode]).to eq '25000FPFU'
     end
   end
 end

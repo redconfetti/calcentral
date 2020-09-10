@@ -1,31 +1,27 @@
-module User
-  module Academics
-    class Holds
-      attr_reader :user
+class User::Academics::Holds
+  attr_reader :user
 
-      def initialize(user)
-        @user = user
-      end
+  def initialize(user)
+    @user = user
+  end
 
-      def all
-        @all ||= feed_data.map do |data|
-          ::User::Academics::Hold.new(data)
-        end
-      end
+  delegate :any?, to: :ihub_holds
 
-      def find_by_term_id(term_id)
-        all.select do |hold|
-          hold.term_id == term_id
-        end
-      end
-
-      private
-
-      def feed_data
-        @feed_data ||= HubEdos::StudentApi::V2::Feeds::AcademicStatuses.new({ user_id: user.uid }).get[:feed]['holds'] || []
-      rescue NoMethodError
-        []
-      end
+  def all
+    @all ||= ihub_holds.all.map do |hold|
+      ::User::Academics::Hold.new(hold)
     end
+  end
+
+  def find_by_term_id(term_id)
+    all.select do |hold|
+      hold.term_id == term_id
+    end
+  end
+
+  private
+
+  def ihub_holds
+    HubEdos::StudentApi::V2::Student::Holds.new(user)
   end
 end

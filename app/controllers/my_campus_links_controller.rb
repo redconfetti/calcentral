@@ -6,7 +6,7 @@ class MyCampusLinksController < ApplicationController
 
   def get_feed
     json = self.class.fetch_from_cache {
-      Links::MyCampusLinks.new.get_feed.to_json
+      Links.new.campus_links.to_json
     }
     render :json => json
   end

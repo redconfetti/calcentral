@@ -102,6 +102,7 @@ Calcentral::Application.routes.draw do
 
       scope ':uid' do
         get 'user_auth' => 'user_auths#show'
+        get 'enrollment_resources' => 'enrollment_resources#show'
       end
     end
 
@@ -174,7 +175,6 @@ Calcentral::Application.routes.draw do
 
   get '/api/advising/advising/:student_uid' => 'advising_student#advising', :defaults => { :format => 'json' }
   get '/api/advising/cache_expiry/academics/:student_uid' => 'advising_student#academics_cache_expiry', :defaults => { :format => 'json' }
-  get '/api/advising/class_enrollments/:student_uid' => 'advising_student#enrollment_instructions', :defaults => { :format => 'json'}
   get '/api/advising/student_committees/:student_uid' => 'advising_student#student_committees', :defaults => { :format => 'json' }
   get '/api/advising/degree_progress/grad/:student_uid' => 'advising_student#degree_progress_graduate', :defaults => { :format => 'json' }
   get '/api/advising/degree_progress/ugrd/:student_uid' => 'advising_student#degree_progress_undergrad', :defaults => { :format => 'json' }
@@ -236,7 +236,7 @@ Calcentral::Application.routes.draw do
   # Financial Aid endpoints
   get '/api/financial_aid/financial_resources' => 'financial_resources#get_feed', :defaults => { :format => 'json' }
 
-  # Alumni Profile endpoints 
+  # Alumni Profile endpoints
   get '/api/alumni/alumni_profiles' => 'alumni_profiles#get_feed', :defaults => { :format => 'json' }
   get '/api/alumni/set_skip_landing_page' => 'alumni_profiles#set_skip_landing_page', :defaults => { :format => 'json' }
 

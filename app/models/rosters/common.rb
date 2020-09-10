@@ -88,11 +88,11 @@ module Rosters
     def terms_in_attendance_code(academic_career, terms_in_attendance_group)
       terms_count = terms_in_attendance_group.try(:[], 1)
       case academic_career
-        when 'GRAD', 'LAW'
+        when ::Careers::GRADUATE, ::Careers::LAW
           'G'
-        when 'UGRD'
+        when ::Careers::UNDERGRADUATE
           terms_count || 'U'
-        when 'UCBX'
+        when ::Careers::CONCURRENT
           "\u2014"
         else
           nil

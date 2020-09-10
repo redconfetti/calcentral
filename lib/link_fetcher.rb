@@ -1,3 +1,4 @@
+# TODO: Deprecate use of this module in favor of Links model
 module LinkFetcher
   extend self
   include ClassLogger

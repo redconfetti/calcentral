@@ -36,7 +36,7 @@ class Api::ServiceAlertsController < Api::BaseController
   end
 
   def update
-    if service_alert.update_attributes service_alert_params
+    if service_alert.update service_alert_params
       render json: service_alert, status: :ok
     else
       render json: @service_alert.errors, status: :unprocessable_entity

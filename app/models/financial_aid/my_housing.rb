@@ -84,7 +84,7 @@ module FinancialAid
 
     def undergrad_housing_status_pending?
       @feed.try(:select) do |term|
-        ('UGRD' == term['acad_career']) && ('Y' != term['housing_status'].try(:upcase))
+        (::Careers::UNDERGRADUATE == term['acad_career']) && ('Y' != term['housing_status'].try(:upcase))
       end.present?
     end
 

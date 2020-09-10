@@ -13,6 +13,7 @@ module User
 
       def all
         @all ||= user.registrations.term_ids.map do |term_id|
+          # TODO: Replace User::Academics::Term with ::Terms
           ::User::Academics::TermRegistration.new(user, User::Academics::Term.new(term_id))
         end
       end

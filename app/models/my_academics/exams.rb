@@ -53,7 +53,7 @@ module MyAcademics
     def collect_semester_exams(semester)
       semester_final_exams = []
       semester[:classes].each do |course|
-        if (course[:courseCareerCode] == 'UGRD')
+        if (course[:courseCareerCode] == ::Careers::UNDERGRADUATE)
           course[:sections].select{|sec| sec[:is_primary_section] }.each do |section|
             section_data = {
               name: course[:course_code],

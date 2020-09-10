@@ -14,8 +14,12 @@ module User
         1.year.ago
       end
 
+      def year
+        ''
+      end
+
       def code
-        ""
+        ''
       end
     end
   end

@@ -67,7 +67,7 @@ module MyAcademics
       end
 
       def is_law_class?(semester_class)
-        semester_class.try(:[], :courseCareerCode) == 'LAW'
+        semester_class.try(:[], :courseCareerCode) == Careers::LAW
       end
 
       def is_summer_term?(term_id)

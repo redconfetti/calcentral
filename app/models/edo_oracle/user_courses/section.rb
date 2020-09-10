@@ -50,7 +50,7 @@ module EdoOracle
       end
 
       def law?
-        academic_career == 'LAW'
+        academic_career == ::Careers::LAW
       end
 
       def course_catalog_number

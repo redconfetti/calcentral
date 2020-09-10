@@ -40,7 +40,7 @@ module MyAcademics
             })
           end
         end
-        if has_career_class?('LAW', semester[:classes])
+        if has_career_class?(::Careers::LAW, semester[:classes])
           semester.merge!({
             gradingAssistanceLinkLaw: grading_info_links[:law].try(:[], 'url')
           })
@@ -53,17 +53,17 @@ module MyAcademics
             add_grading_dates_to_summer_classes(semester[:classes], term_id)
           else
             add_grading_dates_general(semester, term_id) if has_non_law_classes?(semester[:classes])
-            add_grading_dates_law(semester, term_id) if has_career_class?('LAW', semester[:classes])
+            add_grading_dates_law(semester, term_id) if has_career_class?(::Careers::LAW, semester[:classes])
           end
         end
       end
 
       def add_grading_dates_general(semester, term_id)
-        has_ugrd_classes = has_career_class?('UGRD', semester[:classes])
-        has_grad_classes = has_career_class?('GRAD', semester[:classes])
+        has_ugrd_classes = has_career_class?(::Careers::UNDERGRADUATE, semester[:classes])
+        has_grad_classes = has_career_class?(::Careers::GRADUATE, semester[:classes])
 
-        ugrd_session = MyAcademics::Grading::Session.get_session(term_id, 'UGRD')
-        grad_session = MyAcademics::Grading::Session.get_session(term_id, 'GRAD')
+        ugrd_session = MyAcademics::Grading::Session.get_session(term_id, ::Careers::UNDERGRADUATE)
+        grad_session = MyAcademics::Grading::Session.get_session(term_id, ::Careers::GRADUATE)
 
         applicable_midterm_periods = Array.new.tap do |array|
           if ugrd_session.midterm_period == grad_session.midterm_period
@@ -119,7 +119,7 @@ module MyAcademics
       end
 
       def add_grading_dates_law(semester, term_id)
-        grading_session = MyAcademics::Grading::Session.get_session(term_id, 'LAW')
+        grading_session = MyAcademics::Grading::Session.get_session(term_id, ::Careers::LAW)
         semester.merge!(
           {
             gradingPeriodStartLaw: grading_session.try(:final_period).try(:formatted_start_date),
@@ -141,7 +141,7 @@ module MyAcademics
       def add_grading_dates_to_summer_section(semester_class, section, term_id)
         if session_id = section.try(:[], :session_id)
           acad_career_code = semester_class[:courseCareerCode]
-          if acad_career_code == 'LAW'
+          if acad_career_code == ::Careers::LAW
             mapped_session_id = summer_law_session_mapping[session_id].to_s
           else
             mapped_session_id = session_id
@@ -345,7 +345,7 @@ module MyAcademics
       end
 
       def parse_cc_grading_status(cs_grading_status, is_law, is_midpoint, term_id, section = nil)
-        acad_career_code = is_law ? 'LAW' : 'UGRD'
+        acad_career_code = is_law ? ::Careers::LAW : ::Careers::UNDERGRADUATE
         session_id = section.try(:[], :session_id) || '1'
         grading_session = MyAcademics::Grading::Session.get_session(term_id, acad_career_code)
 

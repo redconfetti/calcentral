@@ -57,8 +57,10 @@ module User
         affiliations = HashConverter.symbolize affiliations
         cs_roles = roles_from_cs_affiliations(affiliations)
         if @user_auth_handler.present? && is_slate_auth_handler?(@user_auth_handler)
+          # TODO: Replace this with User::Current#is_released_admit?
           return !cs_roles[:releasedAdmit]
         else
+          # TODO: Replace this with User::Current#is_unreleased_applicant?
           unreleased = unreleased_applicant?(cs_roles)
           has_ldap_affiliations = unreleased ? has_ldap_affiliations? : nil
           return unreleased && (!has_ldap_affiliations.nil? && !has_ldap_affiliations)
