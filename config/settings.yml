@@ -1,6 +1,6 @@
 application:
   # Set to true if testing production env without Apache/Nginx
-  serve_static_assets: false
+  serve_static_files: false
   # Set to "https://" if running behind Apache/Nginx + https
   protocol: 'http://'
   fake_cas: false

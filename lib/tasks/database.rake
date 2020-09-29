@@ -26,4 +26,11 @@ namespace :database do
     end
   end
 
+  task :load_schema => :environment do
+    if Rails.env == "test" and Rails.configuration.database_configuration['test']['adapter'] == 'sqlite3'
+      load "#{Rails.root}/db/schema.rb"
+      puts "SQLite database loaded from db/schema.rb"
+    end
+  end
+
 end
