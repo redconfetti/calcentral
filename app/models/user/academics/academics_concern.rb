@@ -9,11 +9,11 @@ module User
         end
 
         def enrollment_terms
-          @enrollment_terms ||= ::User::Academics::EnrollmentTerms.new(self)
+          @enrollment_terms ||= ::User::Academics::Enrollment::Terms.new(self)
         end
 
         def enrollment_term_instructions
-          @enrollment_term_instructions ||= ::User::Academics::EnrollmentTermInstructions.new(self)
+          @enrollment_term_instructions ||= ::User::Academics::Enrollment::TermInstructions.new(self)
         end
 
         def holds
