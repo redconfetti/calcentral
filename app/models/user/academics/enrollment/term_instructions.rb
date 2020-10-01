@@ -1,6 +1,5 @@
 class User::Academics::Enrollment::TermInstructions
   attr_reader :user
-  attr_reader :term_id
 
   def initialize(user)
     @user = user

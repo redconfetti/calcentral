@@ -15,6 +15,7 @@ class User::Academics::Enrollment::Career
 
   def as_json(options={})
     {
+      acadCareer: career_code,
       maxUnits: term_max_units,
       deadlines: session_deadlines
     }

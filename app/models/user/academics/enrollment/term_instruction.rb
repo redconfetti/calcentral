@@ -8,34 +8,39 @@ class User::Academics::Enrollment::TermInstruction
   end
 
   def enrollment_periods
-    @enrollment_periods ||= ::User::Academics::Enrollment::Periods.new(enrollment_period_data)
+    @enrollment_periods ||= ::User::Academics::Enrollment::Periods.new(fetch_attr(:enrollmentPeriod, []))
   end
 
   def enrollment_careers
-    @enrollment_careers ||= ::User::Academics::Enrollment::Careers.new(enrollment_careers_data)
+    puts "fetch_attr(:careers, []): #{fetch_attr(:careers, []).inspect}"
+    @enrollment_careers ||= ::User::Academics::Enrollment::Careers.new(fetch_attr(:careers, []))
+  end
+
+  def enrolled_classes
+    @enrolled_classes ||= ::User::Academics::Enrollment::EnrollmentClasses.new(fetch_attr(:enrolledClasses, []), :enrollment)
+  end
+
+  def waitlisted_classes
+    @waitlisted_classes ||= ::User::Academics::Enrollment::EnrollmentClasses.new(fetch_attr(:waitlistedClasses, []), :waitlist)
   end
 
   def as_json(options={})
     {
       user: user.uid,
       term_id: term_id,
-      enrollment_periods: enrollment_periods.as_json,
-      enrollment_careers: enrollment_careers.as_json
+      enrollmentPeriods: enrollment_periods.as_json,
+      enrollmentCareers: enrollment_careers.as_json,
+      enrolledClasses: enrolled_classes.as_json,
+      waitlistedClasses: waitlisted_classes.as_json,
     }
   end
 
   private
 
-  def enrollment_period_data
-    data[:enrollmentTerm][:enrollmentPeriod] || []
+  def fetch_attr(symbol, default)
+    data[:enrollmentTerm][symbol] || default
   rescue NoMethodError
-    []
-  end
-
-  def enrollment_careers_data
-    data[:enrollmentTerm][:careers] || []
-  rescue NoMethodError
-    []
+    default
   end
 
   def data
@@ -43,5 +48,6 @@ class User::Academics::Enrollment::TermInstruction
       user_id: user.uid,
       term_id: term_id
     }).get[:feed]
+    @data
   end
 end

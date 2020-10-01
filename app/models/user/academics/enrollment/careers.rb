@@ -16,4 +16,8 @@ class User::Academics::Enrollment::Careers
       career.career_code.downcase == career_code.downcase
     end.first
   end
+
+  def as_json
+    all.collect(&:as_json)
+  end
 end

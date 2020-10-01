@@ -35,7 +35,7 @@ class User::Academics::Enrollment::Term
   end
 
   def class_info_message
-    ClassInfoMessage.new({
+    ::User::Academics::ClassInfoMessage.new({
       career_code: career_code,
       semester_name: semester_name
     }).message
