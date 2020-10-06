@@ -1,4 +1,56 @@
 describe Links do
+  let(:cs_link_data) do
+    {
+      ucCxGtGradeoptAdd: {urlId: 'UC_CX_GT_GRADEOPT_ADD'},
+      ucCcCovidResourceUrl4: {urlId: 'UC_CC_COVID_RESOURCE_URL4'},
+    }
+  end
+  let(:cs_links_response) { {statusCode: 200, feed: {ucLinkResources: {links: cs_link_data}}} }
+  let(:cs_links_object) { double(get: cs_links_response) }
+  before do
+    allow(CampusSolutions::Link).to receive(:new).and_return(cs_links_object)
+  end
+
+  describe '.find' do
+    let(:result) { described_class.find(link_id, {EMPLID: '61889'}) }
+    context 'when link present' do
+      let(:link_id) { 'UC_CX_GT_GRADEOPT_ADD' }
+      it 'returns link initialized with parameters' do
+        expect(result).to be_an_instance_of Link
+        expect(result.id).to eq 'UC_CX_GT_GRADEOPT_ADD'
+        expect(result.parameters[:EMPLID]).to eq '61889'
+      end
+    end
+    context 'when link not present' do
+      let(:link_id) { 'UC_CX_GT_GRADEOPT_EDIT' }
+      it 'returns nil' do
+        expect(result).to eq nil
+      end
+    end
+  end
+
+  describe '#find' do
+    it 'returns nil when link not present' do
+      link = subject.find('UC_CX_GT_GRADEOPT_EDIT')
+      expect(link).to eq nil
+    end
+    it 'returns link when link is present' do
+      link = subject.find('UC_CX_GT_GRADEOPT_ADD')
+      expect(link).to be_an_instance_of Link
+      expect(link.id).to eq 'UC_CX_GT_GRADEOPT_ADD'
+    end
+  end
+
+  describe '#all' do
+    let(:all_links) { subject.all }
+    it 'returns link objects' do
+      expect(all_links).to be_an_instance_of Array
+      expect(all_links.count).to eq 2
+      all_links.each do |link|
+        expect(link).to be_an_instance_of Link
+      end
+    end
+  end
 
   describe '#campus_links' do
     let(:link_json) do
