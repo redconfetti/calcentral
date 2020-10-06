@@ -1,6 +1,6 @@
-describe Links::MyCampusLinks do
+describe Links do
 
-  describe '#load_cs_link_api_entries' do
+  describe '#campus_links' do
     let(:link_json) do
       {
         'links' => [
@@ -34,10 +34,11 @@ describe Links::MyCampusLinks do
       }
     end
     before do
+      allow(subject).to receive(:campus_links_json).and_return(link_json)
       allow(LinkFetcher).to receive(:fetch_link).with('UC_CX_ACCOMM_HUB_STUDENT').and_return(cs_link_hash)
     end
     it 'should merge cs link api properties with link when cs_link_id present' do
-      links = subject.load_cs_link_api_entries(link_json)
+      links = subject.campus_links
       links_array = links['links']
       expect(links_array[0]['name']).to eq 'Static Link 1 Name'
       expect(links_array[1]['name']).to eq 'Academic Accommodations Hub'
@@ -47,34 +48,6 @@ describe Links::MyCampusLinks do
       expect(links_array[1][:ucFromText]).to eq 'CalCentral'
       expect(links_array[1][:ucFromLink]).to eq 'https://calcentral-sis01.example.com/'
       expect(links_array[2]['name']).to eq 'Static Link 2 Name'
-    end
-  end
-
-  describe '#campus_links_json' do
-    it 'should return the links and navigation' do
-      links = subject.campus_links_json
-      expect(links.keys).to contain_exactly('links', 'navigation')
-    end
-  end
-
-  describe '#get_roles_for_link' do
-    context 'user roles that can see a particular link' do
-      let(:roles_for_link) {
-        roles_for_link = []
-        roles.each { |role| roles_for_link << double(slug: role) }
-        Links::MyCampusLinks.new.get_roles_for_link double user_roles: roles_for_link
-      }
-      context 'ex-students' do
-        subject { roles_for_link['exStudent'] }
-        context 'student gets a link' do
-          let(:roles) { %w(student exStudent) }
-          it { should be true }
-        end
-        context 'no link for student role' do
-          let(:roles) { %w(applicant staff faculty student) }
-          it { should be false }
-        end
-      end
     end
   end
 end

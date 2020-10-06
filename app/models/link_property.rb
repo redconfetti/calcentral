@@ -1,0 +1,2 @@
+class LinkProperty
+end

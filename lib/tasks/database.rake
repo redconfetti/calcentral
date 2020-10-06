@@ -2,10 +2,10 @@ namespace :database do
 
   def seeded?
     begin
-      link_role = Links::UserRole.all.first
+      service_alert = ServiceAlerts::Alert.all.first
     rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
     end
-    if link_role.present?
+    if service_alert.present?
       true
     else
       false
