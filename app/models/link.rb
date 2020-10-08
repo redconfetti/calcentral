@@ -14,7 +14,7 @@ class Link
     @data[:description]
   end
 
-  def title
+  def hover_over_text
     @data[:hoverOverText]
   end
 

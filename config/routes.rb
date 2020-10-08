@@ -93,6 +93,7 @@ Calcentral::Application.routes.draw do
   with_options defaults: { format: :json } do
     scope '/api' do
       resources :covid_response, only: :index
+      resources :enrollment_resources, only: :index
     end
 
     scope '/api', module: 'api' do

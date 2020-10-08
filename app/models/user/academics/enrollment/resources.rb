@@ -1,2 +1,3 @@
-class User::Academics::Enrollment::ClassEnrollments
+class User::Academics::Enrollment::Resources
+
 end

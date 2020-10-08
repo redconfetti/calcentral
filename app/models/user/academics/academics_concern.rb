@@ -16,8 +16,8 @@ module User
           @enrollment_term_instructions ||= ::User::Academics::Enrollment::TermInstructions.new(self)
         end
 
-        def class_enrollments
-          @class_enrollments ||= ::User::Academics::Enrollment::ClassEnrollments.new(self)
+        def enrollment_resources
+          @enrollment_resources ||= ::User::Academics::Enrollment::Resources.new(self)
         end
 
         def holds
