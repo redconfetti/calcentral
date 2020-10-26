@@ -5,8 +5,12 @@ class User::Academics::Enrollment::Links
     { feed_key: :uc_view_class_enrollment, cs_link_key: 'UC_CX_GT_SSCNTENRL_VIEW'},
     { feed_key: :request_late_class_changes, cs_link_key: 'UC_CX_GT_GRADEOPT_ADD'},
     { feed_key: :cross_campus_enroll, cs_link_key: 'UC_CX_STDNT_CRSCAMPENR'},
-    { feed_key: :late_ugrd_enroll_action, cs_link_key: 'UC_CX_GT_SRLATEDROP_ADD' }
+    { feed_key: :late_ugrd_enroll_action, cs_link_key: 'UC_CX_GT_SRLATEDROP_ADD' },
   ]
+
+  def initialize(user)
+    @user = user
+  end
 
   def links
     TABLE.inject({}) do |map, link_setting|
