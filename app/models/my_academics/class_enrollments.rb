@@ -10,7 +10,7 @@ module MyAcademics
     ENROLLMENT_DECK_KEYS = ['fpf', 'haasFullTimeMba', 'haasEveningWeekendMba', 'haasExecMba', 'summerVisitor', 'courseworkOnly', 'law', 'concurrent']
 
     def get_feed_internal
-      return {} unless is_feature_enabled && user_is_student?
+      return {} unless is_feature_enabled && user.is_student?
       HashConverter.camelize({
         enrollmentTermInstructionTypeDecks: get_career_term_role_decks,
         enrollmentTermInstructions: get_enrollment_term_instructions,
@@ -210,17 +210,9 @@ module MyAcademics
 
     private
 
-    def user_is_student?
-      HubEdos::UserAttributes.new(user_id: @uid).has_role?(:student)
-    end
-
-    def user_is_undergrad?
-      HubEdos::UserAttributes.new(user_id: @uid).has_role?(:undergrad)
-    end
-
     def can_see_late_ugrd_enroll_action_link?
       current_academic_roles = MyAcademics::MyAcademicRoles.new(@uid).get_feed.try(:[], :current)
-      user_is_undergrad? && (
+      user.is_undergrad? && (
         current_academic_roles["lettersAndScience"] ||
         current_academic_roles["ugrdEngineering"] ||
         current_academic_roles["ugrdEnvironmentalDesign"] ||

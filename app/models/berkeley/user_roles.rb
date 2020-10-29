@@ -82,7 +82,8 @@ module Berkeley
       roles
     end
 
-    # TODO: Replace dependencies of this method with User::Profile::Roles
+    # TODO: Replace dependencies on this method with User::Profile::ProfileConcern
+    # and User::Profile::Roles
     def roles_from_cs_affiliations(cs_affiliations)
       return {} unless cs_affiliations
       result = {}

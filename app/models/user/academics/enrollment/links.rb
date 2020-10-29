@@ -12,10 +12,23 @@ class User::Academics::Enrollment::Links
     @user = user
   end
 
+  def user_allowed_late_undergraduate_enrollment_action?
+    whitelisted_roles = [
+      'lettersAndScience',
+      'ugrdEngineering',
+      'ugrdEnvironmentalDesign',
+      'ugrdNaturalResources',
+      'ugrdHaasBusiness',
+      'degreeSeeking',
+    ]
+    @user.is_undergrad? && (@user.current_academic_roles & whitelisted_roles).any?
+  end
+
   def links
-    TABLE.inject({}) do |map, link_setting|
+    link_config = TABLE
+    link_config.inject({}) do |map, link_setting|
       cs_link_key = link_setting[:cs_link_key]
-      map[link_setting[:feed_key]] = LinkFetcher.fetch_link(cs_link_key);
+      map[link_setting[:feed_key]] = Links.find(cs_link_key).as_json;
       map
     end
   end

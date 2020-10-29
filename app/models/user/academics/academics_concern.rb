@@ -4,6 +4,9 @@ module User
       extend ActiveSupport::Concern
 
       included do
+        delegate :current_academic_roles, to: :academic_roles
+        delegate :historic_academic_roles, to: :academic_roles
+
         def diploma
           @diploma ||= ::User::Academics::Diploma.new(self)
         end
@@ -47,6 +50,13 @@ module User
         def term_plans
           @term_plans ||= ::User::Academics::TermPlans::TermPlans.new(self)
         end
+
+        private
+
+        def academic_roles
+          @academic_roles ||= ::User::Academics::Roles.new(self)
+        end
+
       end
     end
   end

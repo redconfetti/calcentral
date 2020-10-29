@@ -41,17 +41,17 @@ describe User::Academics::Roles do
     end
   end
 
-  describe '#current_user_roles' do
+  describe '#current_academic_roles' do
     let(:current_roles) { {'grad' => true, 'ugrd' => false} }
-    it 'returns current user roles' do
-      expect(subject.current_user_roles).to eq [:grad]
+    it 'returns users current academic roles' do
+      expect(subject.current_academic_roles).to eq [:grad]
     end
   end
 
-  describe '#historic_user_roles' do
+  describe '#historic_academic_roles' do
     let(:historical_roles) { {'ugrd' => true, 'grad' => true} }
-    it 'returns historic user roles' do
-      expect(subject.historic_user_roles).to eq [:ugrd, :grad]
+    it 'returns user historic academic roles' do
+      expect(subject.historic_academic_roles).to eq [:ugrd, :grad]
     end
   end
 end
