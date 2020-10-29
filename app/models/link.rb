@@ -1,9 +1,9 @@
 class Link
   attr_accessor :parameters
 
-  def initialize(data)
+  def initialize(data, parameters = {})
     @data = data || {}
-    @parameters = {}
+    @parameters = parameters || {}
   end
 
   def id
@@ -14,7 +14,7 @@ class Link
     @data[:description]
   end
 
-  def hover_over_text
+  def title
     @data[:hoverOverText]
   end
 
