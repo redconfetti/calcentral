@@ -64,7 +64,7 @@ module MyAcademics
           duplicated_link = link.dup
           LinkFetcher.replace_url_params(link_key, duplicated_link, placeholders)
         end
-        berkeley_term = Berkeley::Terms.find_by_campus_solutions_id(term_id)
+        berkeley_term = Berkeley::Terms.find(term_id)
         {
           'termId' => term_id,
           'name' => berkeley_term.name.to_s,

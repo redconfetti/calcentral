@@ -12,7 +12,7 @@ describe User::Academics::DegreeProgress::Graduate::CandidacyTermStatus do
     }
   end
   let(:fall_2019_term) { double(to_english: 'Fall 2019', name: 'Fall', year: '2019', code: 'B')}
-  before { allow(Berkeley::Terms).to receive(:find_by_campus_solutions_id).with('2198').and_return(fall_2019_term) }
+  before { allow(Berkeley::Terms).to receive(:find).with('2198').and_return(fall_2019_term) }
   subject { described_class.new(data) }
 
   describe '#status_code' do

@@ -629,7 +629,7 @@ describe MyAcademics::Semesters do
     let(:reserved_seats_info_link) { 'https://classes.berkeley.edu/content/2019-fall-econ-1-001-lec-001' }
     let(:fall_2019_term) { double(year: 2019, name: 'Fall 2019') }
     before do
-      allow(Berkeley::Terms).to receive(:find_by_campus_solutions_id).with(term_id).and_return(fall_2019_term)
+      allow(Berkeley::Terms).to receive(:find).with(term_id).and_return(fall_2019_term)
       allow(EdoOracle::Queries).to receive(:section_reserved_capacity_count).and_return(section_reserved_capacity_result)
       allow(LinkFetcher).to receive(:fetch_link).and_return(reserved_seats_info_link)
       subject.add_reserved_seating_rules_link(term_id, course, section)

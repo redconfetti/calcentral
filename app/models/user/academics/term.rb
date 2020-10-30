@@ -56,7 +56,7 @@ module User
       end
 
       def berkeley_term
-        @berkeley_term ||= Berkeley::Terms.find_by_campus_solutions_id(term_id) || NullTerm.new(term_id)
+        @berkeley_term ||= Berkeley::Terms.find(term_id) || NullTerm.new(term_id)
       end
     end
   end

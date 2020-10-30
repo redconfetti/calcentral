@@ -61,9 +61,9 @@ module Berkeley
       end
     end
 
-    def self.find_by_campus_solutions_id(term_id, options = {})
+    def self.find(campus_solutions_term_id, options = {})
       terms = fetch(options).campus
-      fetch(options).campus.values.find {|t| t.campus_solutions_id == term_id}
+      fetch(options).campus.values.find {|t| t.campus_solutions_id == campus_solutions_term_id}
     end
 
     def self.legacy?(term_yr, term_cd)

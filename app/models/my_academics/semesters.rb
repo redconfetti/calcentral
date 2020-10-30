@@ -213,7 +213,7 @@ module MyAcademics
       if section[:waitlisted] && section[:is_primary_section]
         reserved_capacity_count = EdoOracle::Queries.section_reserved_capacity_count(term_id, section[:ccn]).first.try(:[],'reserved_seating_rules_count').to_i
         if reserved_capacity_count > 0
-          term = Berkeley::Terms.find_by_campus_solutions_id(term_id)
+          term = Berkeley::Terms.find(term_id)
           class_subject = course[:dept_code]
           catalog_nbr = course[:courseCatalog]
           class_section = section[:section_number]
