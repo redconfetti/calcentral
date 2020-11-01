@@ -18,13 +18,14 @@ class User::Academics::Enrollment::Term
   def as_json(options={})
     {
       career: career_code,
-      termId: term_id,
-      requiresCalgrantAcknowledgement: requires_cal_grant_acknowledgement?,
-      message: enrollment_message,
       classInfoMessage: class_info_message,
-      enrollmentPeriods: enrollment_periods,
       constraints: enrollment_career,
-      programCode: term_plan&.academic_program_code
+      enrollmentPeriods: enrollment_periods,
+      message: enrollment_message,
+      programCode: term_plan&.academic_program_code,
+      requiresCalgrantAcknowledgement: requires_cal_grant_acknowledgement?,
+      summer: summer?,
+      termId: term_id,
     }
   end
 
@@ -50,7 +51,7 @@ class User::Academics::Enrollment::Term
 
   private
 
-  delegate :semester_name, to: :term
+  delegate :semester_name, :summer? to: :term
 
   def term
     @term ||= ::User::Academics::Term.new(term_id)

@@ -51,4 +51,5 @@ describe User::Academics::Enrollment::Term do
       expect(result[:programCode]).to eq 'UCLS'
     end
   end
+
 end

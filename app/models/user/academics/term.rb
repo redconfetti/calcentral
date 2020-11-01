@@ -21,7 +21,11 @@ module User
         TERM_CODES.fetch(code) { "" }
       end
 
-      delegate :to_english, :code, to: :berkeley_term
+      delegate :code, to: :berkeley_term
+
+      def name
+        "#{semester_name} #{year}"
+      end
 
       def summer?
         berkeley_term.is_summer
@@ -34,6 +38,12 @@ module User
       def active?
         !past?
       end
+
+      def year
+        berkeley_term&.year
+      end
+
+      term = Terms.find(term_id)
 
       def past_add_drop?
         berkeley_term.end_drop_add ? now > berkeley_term.end_drop_add : false

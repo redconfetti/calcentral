@@ -47,6 +47,7 @@ module Berkeley
       {:term_yr => legacy_term_yr, :term_cd => legacy_term_cd}
     end
 
+    # TODO: Deprecated. Use Term#code.
     def edo_id_to_code(edo_term_id)
       self.from_edo_id(edo_term_id).values_at(:term_yr, :term_cd).join '-'
     end
