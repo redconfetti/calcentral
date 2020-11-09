@@ -229,7 +229,7 @@ server at [localhost:8080].
 **Note**: Usually you won't have to do any of the following steps when you're
 developing on CalCentral.
 
-## Back-end Testing
+## Back-End Testing
 
 Back-end (rspec) tests live in `spec/*`.
 
@@ -249,7 +249,7 @@ spork
 rspec --drb spec/lib/my_spec.rb
 ```
 
-## Front-end Linting
+## Front-End Linting
 
 Front-end linting can be done by running the following commands:
 
@@ -274,7 +274,7 @@ student, append `/academics` to the URL to access My Academics.
 
 ## Debugging
 
-### Emulating production mode locally
+### Emulating Production Mode Locally
 
 1. Make sure you have a separate production database:
 
@@ -319,7 +319,7 @@ student, append `/academics` to the URL to access My Academics.
 1. After testing, remember to remove the static assets, or run another build
    before the next task.
 
-### Test connection
+### Test Connection
 
 Make sure you are on the Berkeley network or connected through
 [preconfigured VPN] for the Oracle connection. If you use a VPN, use group
@@ -327,7 +327,7 @@ Make sure you are on the Berkeley network or connected through
 
 [preconfigured VPN]: https://kb.berkeley.edu/page.php?id=23065
 
-### Enable basic authentication
+### Enable Basic Authentication
 
 Basic authentication will enable you to log in without using CAS.
 This is necessary when your application can't be CAS authenticated or when
@@ -351,7 +351,7 @@ you're testing mobile browsers.
    you should use a UID (e.g. `61889` for oski) and then the password from the
    settings file.
 
-### "Act As" another user
+### "Act As" Another User
 
 To help another user debug an issue, you can "become" them on CalCentral. To
 assume the identity of another user, you must:
@@ -407,7 +407,7 @@ shell scripts via env variables:
 
 See [docs/styleguide.md](docs/styleguide.md).
 
-## Creating timeshifted fake data feeds
+## Creating Timeshifted Fake Data Feeds
 
 Proxies running in fake mode use WebMock to substitute fixture data for
 connections to external services (Canvas, Google, etc). This fake data lives in
@@ -417,7 +417,7 @@ Fixture files can represent time information by tokens that are substituted with
 appropriately shifted values when fixture data is loaded. See
 `config/initializers/timeshift.rb` for the dictionary of substitutions.
 
-## Rake tasks
+## Rake Tasks
 
 To view other rake task for the project: `rake -T`
 
@@ -440,7 +440,7 @@ cache:
   store: "memcached"
 ```
 
-## Memcached tasks
+## Memcached Tasks
 
 A few rake tasks to help monitor statistics and more:
 
@@ -461,7 +461,7 @@ A few rake tasks to help monitor statistics and more:
   
   `rake memcached:get_stats hosts="localhost:11212,localhost:11213,localhost:11214"`
 
-## Using the feature toggle
+## Using the Feature Toggle
 
 To selectively enable/disable a feature, add a property to the `features`
 section of settings.yml, e.g.:
