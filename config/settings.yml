@@ -431,6 +431,7 @@ features:
   enrollment_verification: false
   final_exam_schedule_student: false
   final_exam_schedule_instructor: false
+  fluid_class_enrollment_card: false
   gpa_calculator: true
   hub_term_api: true
   ldap_student_affiliations: false
