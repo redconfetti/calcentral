@@ -3,10 +3,6 @@ module User
     class Registration
       attr_reader :data
 
-      LAW = 'LAW'
-      GRADUATE = 'GRAD'
-      UNDERGRADUATE = 'UGRD'
-
       def initialize(registration_data)
         @data = registration_data
       end
@@ -20,15 +16,15 @@ module User
       end
 
       def undergraduate?
-        career_code == UNDERGRADUATE
+        career_code == Careers::UNDERGRADUATE
       end
 
       def graduate?
-        career_code == GRADUATE
+        career_code == Careers::GRADUATE
       end
 
       def law?
-        career_code == LAW
+        career_code == Careers::LAW
       end
 
       def academic_levels

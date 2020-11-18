@@ -16,7 +16,7 @@ module User
       end
 
       def preferred_for_career_code?(career_code)
-        if career_code == 'LAW'
+        if career_code == Careers::LAW
           end_of_term?
         else
           beginning_of_term?

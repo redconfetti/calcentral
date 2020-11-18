@@ -110,7 +110,7 @@ module EdoOracle
 
       def row_to_feed_item(row, previous_item, cross_listing_tracker=nil)
         class_enrollment = class_from_row row
-        if class_enrollment[:id] == previous_item[:id] && previous_item[:session_code] == Berkeley::TermCodes::SUMMER_SESSIONS[row['session_id']]
+        if class_enrollment[:id] == previous_item[:id] && previous_item[:session_code] == Terms::SUMMER_SESSIONS[row['session_id']]
           previous_section = previous_item[:sections].last
           # Odd database joins will occasionally give us null course titles, which we can replace from later rows.
           previous_item[:name] = row['course_title'] if previous_item[:name].blank?
@@ -129,7 +129,7 @@ module EdoOracle
         else
           term_data = Berkeley::TermCodes.from_edo_id(row['term_id']).merge({
             term_id: row['term_id'],
-            session_code: Berkeley::TermCodes::SUMMER_SESSIONS[row['session_id']]
+            session_code: Terms::SUMMER_SESSIONS[row['session_id']]
           })
           course_name = row['course_title'].present? ? row['course_title'] : row['course_title_short']
           course_data = {
@@ -166,7 +166,7 @@ module EdoOracle
         dept_name, dept_code, catalog_id = parse_course_code row
         slug = [dept_code, catalog_id].map { |str| normalize_to_slug str }.join '-'
         term_code = Berkeley::TermCodes.edo_id_to_code row['term_id']
-        session_code = Berkeley::TermCodes::SUMMER_SESSIONS[row['session_id']]
+        session_code = Terms::SUMMER_SESSIONS[row['session_id']]
         course_id =  session_code.present? ? "#{slug}-#{term_code}-#{session_code}" : "#{slug}-#{term_code}"
         {
           catid: catalog_id,

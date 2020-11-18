@@ -8,7 +8,7 @@ describe HubEdos::StudentApi::V2::Student::Hold do
       'reason' => {
         'code' => 'NOID',
         'description' => 'No ID Provided at Cal 1 Card',
-        'formalDescription' => 'A government issue ID is required to receive a Cal 1 Card. A temporary Cal 1 Card was granted because you could not provide the required ID. You must provide a valid government issue ID to the Office of the Registrar before enrolling for the next term.'
+        'formalDescription' => 'A government issue ID is required to receive a Cal 1 Card.'
       },
       'fromTerm' => {
         'id' => '2182',
@@ -45,10 +45,22 @@ describe HubEdos::StudentApi::V2::Student::Hold do
     }
   end
   subject { described_class.new(attributes) }
+
   its(:type) { should be_an_instance_of HubEdos::Common::Reference::Descriptor }
+  its(:type_code) { should eq 'R01' }
+  its(:type_description) { should eq 'Missing Required Documents' }
+
   its(:reason) { should be_an_instance_of HubEdos::Common::Reference::Descriptor }
+  its(:reason_formal_description) { should eq 'A government issue ID is required to receive a Cal 1 Card.' }
+
+  its(:from_term) { should be_an_instance_of HubEdos::StudentApi::V2::Term::Term }
+  its(:from_term_id) { should eq '2182' }
+
   its(:reference) { should eq ' ' }
+
   its(:amount_required) { should eq 0.0 }
+
   its(:department) { should be_an_instance_of HubEdos::Common::Reference::Descriptor }
+
   its(:contact) { should be_an_instance_of HubEdos::Common::Reference::Descriptor }
 end

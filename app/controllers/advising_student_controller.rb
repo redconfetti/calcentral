@@ -37,10 +37,6 @@ class AdvisingStudentController < ApplicationController
     render json: DegreeProgress::UndergradRequirements.new(student_uid_param).get_feed_as_json
   end
 
-  def enrollment_instructions
-    render json: MyAcademics::ClassEnrollments.new(student_uid_param).get_feed_as_json
-  end
-
   def holds
     render json: MyAcademics::MyHolds.new(student_uid_param).get_feed_as_json
   end

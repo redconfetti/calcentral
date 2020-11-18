@@ -166,6 +166,11 @@
     Rake::Task['db:schema:load'].invoke
     ```
 
+    Load schema for Test Database
+    ```shell
+    rake database:load_schema RAILS_ENV=test
+    ```
+
 [ojdbc7_g.jar]: http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html
 
 1. Make yourself a super-user:
@@ -290,8 +295,8 @@ student, append `/academics` to the URL to access My Academics.
     secret_token: "Some random 30-char string"
     postgres: [credentials for your separate production db (copy/modify from development.local.yml)]
     google_proxy: and canvas_proxy: [copy from development.local.yml]
-      application:
-        serve_static_assets: true
+    application:
+      serve_static_files: true
     ```
 
 1. Populate the production db by invoking your production settings:

@@ -1,7 +1,7 @@
 describe HubEdos::StudentApi::V2::Student::AcademicStatuses do
   let(:uid) { random_id }
   let(:user) { double(uid: uid) }
-  let(:sis_student_academic_statuses_proxy) { double(get_inactive_completed: api_response)}
+  let(:sis_student_academic_statuses_proxy) { double(all: api_response)}
   let(:api_response) do
     {
       statusCode: status_code,

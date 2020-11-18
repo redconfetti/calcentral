@@ -11,13 +11,14 @@ describe User::Academics::TermPlans::TermPlans do
     ]
   end
   let(:term_plans_cached) { double(get_feed: data) }
-  subject { described_class.new(user) }
   let(:current_term) { double(campus_solutions_id: '2198')}
   let(:berkeley_terms) { double(current: current_term) }
   before do
     allow(Berkeley::Terms).to receive(:fetch).and_return(berkeley_terms)
     allow(User::Academics::TermPlans::TermPlansCached).to receive(:new).and_return(term_plans_cached)
   end
+
+  subject { described_class.new(user) }
 
   describe 'all' do
     let(:result) { subject.all }

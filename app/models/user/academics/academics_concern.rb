@@ -4,20 +4,23 @@ module User
       extend ActiveSupport::Concern
 
       included do
+        delegate :current_academic_roles, to: :academic_roles
+        delegate :historic_academic_roles, to: :academic_roles
+
         def diploma
           @diploma ||= ::User::Academics::Diploma.new(self)
         end
 
-        def enrollment_terms
-          @enrollment_terms ||= ::User::Academics::EnrollmentTerms.new(self)
-        end
-
-        def enrollment_term_instructions
-          @enrollment_term_instructions ||= ::User::Academics::EnrollmentTermInstructions.new(self)
+        def enrollment_resources
+          @enrollment_resources ||= ::User::Academics::Enrollment::Resources.new(self)
         end
 
         def holds
           @holds ||= ::User::Academics::Holds.new(self)
+        end
+
+        def has_holds?
+          holds.any?
         end
 
         def registrations
@@ -43,6 +46,37 @@ module User
         def term_plans
           @term_plans ||= ::User::Academics::TermPlans::TermPlans.new(self)
         end
+
+        def enrollment_terms
+          @enrollment_terms ||= User::Academics::Enrollment::Terms.new(self)
+        end
+
+        def enrollment_term_plans
+          @enrollment_term_plans ||= User::Academics::Enrollment::TermPlans.new(self)
+        end
+
+        def enrollment_term_instructions
+          @enrollment_term_instructions ||= User::Academics::Enrollment::TermInstructions.new(self)
+        end
+
+        def enrollment_presentations
+          @enrollment_presentations ||= User::Academics::Enrollment::Presentations.new(self)
+        end
+
+        def enrollment_messages
+          @enrollment_messages ||= User::Academics::Enrollment::Messages.new
+        end
+
+        def enrollment_links
+          @enrollment_links ||= User::Academics::Enrollment::Links.new(self)
+        end
+
+        private
+
+        def academic_roles
+          @academic_roles ||= ::User::Academics::Roles.new(self)
+        end
+
       end
     end
   end

@@ -1,28 +1,11 @@
 module Berkeley
+  # TODO: Migrate this functionality to User::Profile::Roles
   module UserRoles
     extend self
     include ClassLogger
 
-     def base_roles
-      {
-        advisor: false,
-        applicant: false,
-        concurrentEnrollmentStudent: false,
-        expiredAccount: false,
-        exStudent: false,
-        faculty: false,
-        graduate: false,
-        guest: false,
-        law: false,
-        registered: false,
-        releasedAdmit: false,
-        staff: false,
-        student: false,
-        undergrad: false,
-        withdrawnAdmit: false,
-        preSir: false,
-        alumniFormer: false,
-      }
+    def base_roles
+      User::Profile::Roles.default_roles_hash
     end
 
     def roles_from_affiliations(affiliations)
@@ -100,6 +83,8 @@ module Berkeley
       roles
     end
 
+    # TODO: Replace dependencies on this method with User::Profile::ProfileConcern
+    # and User::Profile::Roles
     def roles_from_cs_affiliations(cs_affiliations)
       return {} unless cs_affiliations
       result = {}

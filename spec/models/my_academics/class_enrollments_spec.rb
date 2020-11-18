@@ -3,6 +3,14 @@ describe MyAcademics::ClassEnrollments do
   let(:student_emplid) { '12000001' }
   let(:is_feature_enabled_flag) { true }
   let(:user_is_student) { false }
+  let(:current_user) do
+    double({
+      uid: student_uid,
+      current_academic_roles: [:ugrd, :lettersAndScience, :degreeSeeking],
+      :student? => user_is_student,
+      :undergraduate? => user_is_student
+    })
+  end
   let(:cs_enrollment_term_detail) do
     {
       studentId: student_emplid,
@@ -120,15 +128,31 @@ describe MyAcademics::ClassEnrollments do
   let(:cs_career_term_grad_fall_2016) { { termId: '2168', termDescr: '2016 Fall', acadCareer: 'GRAD' } }
   let(:cs_career_term_law_fall_2016) { { termId: '2168', termDescr: '2016 Fall', acadCareer: 'LAW' } }
 
+  let(:enrollment_terms_data) do
+    [
+      career: 'ugrd',
+      classInfoMessage: {},
+      constraints: {},
+      enrollmentPeriods: [],
+      message: {},
+      programCode: nil,
+      requiresCalgrantAcknowledgement: false,
+      summer: false,
+      termI: '2168',
+    ]
+  end
+  let(:enrollment_terms) { double(as_json: enrollment_terms_data) }
+
   subject { MyAcademics::ClassEnrollments.new(student_uid) }
   before do
     allow(subject).to receive(:is_feature_enabled).and_return(is_feature_enabled_flag)
-    allow(subject).to receive(:user_is_student?).and_return(user_is_student)
+    allow(User::Current).to receive(:new).and_return(current_user)
     allow(MyAcademics::MyAcademicStatus).to receive(:has_holds?).and_return(has_holds)
     allow(CampusSolutions::MyEnrollmentTerms).to receive(:get_terms).and_return(cs_enrollment_career_terms)
     allow(CampusSolutions::MyEnrollmentTerm).to receive(:get_term) do |uid, term_id|
       cs_enrollment_term_detail.merge({:term => term_id})
     end
+    allow(current_user).to receive(:enrollment_terms).and_return(enrollment_terms)
     allow_any_instance_of(Berkeley::Term).to receive(:campus_solutions_id).and_return(term_id)
     allow_any_instance_of(User::Academics::TermPlans::TermPlansCached).to receive(:get_feed).and_return(term_cpp)
   end

@@ -38,7 +38,7 @@ module CampusOracle
       self.raise_non_test_error
 
       raise ArgumentError, "Search text argument must be a string" if name_search_string.class != String
-      raise ArgumentError, "Limit argument must be a Fixnum" if limit.class != Fixnum
+      raise ArgumentError, "Limit argument must be a Integer" if limit.class != Integer
       limit_clause = (limit > 0) ? "where rownum <= #{limit}" : ""
       search_text_array = name_search_string.split(',')
       search_text_array.collect! { |e| e.strip }
@@ -72,7 +72,7 @@ module CampusOracle
       self.raise_non_test_error
 
       raise ArgumentError, "Search text argument must be a string" if email_search_string.class != String
-      raise ArgumentError, "Limit argument must be a Fixnum" if limit.class != Fixnum
+      raise ArgumentError, "Limit argument must be a Integer" if limit.class != Integer
       limit_clause = (limit > 0) ? "where rownum <= #{limit}" : ""
       clean_search_string = connection.quote_string(email_search_string)
       result = []

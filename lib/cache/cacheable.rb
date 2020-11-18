@@ -1,5 +1,4 @@
 module Cache
-
   module Cacheable
     include ResponseWrapper
 
@@ -125,5 +124,4 @@ module Cache
     end
 
   end
-
 end

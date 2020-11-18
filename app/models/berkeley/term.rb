@@ -48,7 +48,7 @@ module Berkeley
       @raw_source = api_feed
       # The HubTerm API returns an array of matching terms, one for each applicable academic career. For general
       # campus-wide reference, we pick the Undergraduate entry.
-      term_feed = api_feed.select {|t| t['academicCareer']['code'] == 'UGRD'}.first
+      term_feed = api_feed.select {|t| t['academicCareer']['code'] == Careers::UNDERGRADUATE}.first
       if term_feed.nil?
         logger.error "No term match found for academicCareer UGRD in feed #{api_feed}; will use first term instead"
         term_feed = api_feed.first

@@ -106,7 +106,7 @@ module CampusSolutions
           if relevant_sir_config.present?
             item[:config] = relevant_sir_config
             item[:responseReasons] = find_relevant_response_reasons(item, sir_config[:responseReasons])
-            item[:isUndergraduate] = item[:checkListMgmtAdmp].try(:[], :acadCareer) == 'UGRD'
+            item[:isUndergraduate] = item[:checkListMgmtAdmp].try(:[], :acadCareer) == Careers::UNDERGRADUATE
           end
           relevant_sir_config.nil?
         end
@@ -256,11 +256,11 @@ module CampusSolutions
       end
 
       def is_completed_non_undergraduate_item?(checklist_item)
-        checklist_item[:checkListMgmtAdmp].try(:[],  :acadCareer) != 'UGRD' && checklist_item[:itemStatusCode] == 'C'
+        checklist_item[:checkListMgmtAdmp].try(:[],  :acadCareer) != Careers::UNDERGRADUATE && checklist_item[:itemStatusCode] == 'C'
       end
 
       def is_law_item?(checklist_item)
-        checklist_item[:checkListMgmtAdmp].try(:[],  :acadCareer) == 'LAW'
+        checklist_item[:checkListMgmtAdmp].try(:[],  :acadCareer) == Careers::LAW
       end
 
       def is_sir_checklist_item?(checklist_item)

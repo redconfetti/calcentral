@@ -1,4 +1,5 @@
 module CampusSolutions
+  # TODO: Deprecate direct use of this model in favor of Links model
   class Link < GlobalCachedProxy
 
     def initialize(options = {})

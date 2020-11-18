@@ -370,7 +370,7 @@ describe MyAcademics::Teaching do
     before do
       allow(EdoOracle::Queries).to receive(:get_instructing_legacy_terms).and_return(legacy_terms)
       allow(LinkFetcher).to receive(:fetch_link).and_return(cs_link_api_link)
-      allow(Berkeley::Terms).to receive(:find_by_campus_solutions_id) do |cs_term_id|
+      allow(Berkeley::Terms).to receive(:find) do |cs_term_id|
         terms = {
           '2058' => fall_2005_dummy_term,
           '2062' => spring_2006_dummy_term,

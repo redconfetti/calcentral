@@ -11,8 +11,8 @@ Calcentral::Application.configure do
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = false
 
-  # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = Settings.application.serve_static_assets
+  # Disable Rails's static file server (Apache or nginx will already do this)
+  config.serve_static_files = Settings.application.serve_static_files
 
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache

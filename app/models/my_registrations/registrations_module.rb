@@ -20,7 +20,7 @@ module MyRegistrations
       term_registrations.each do |term_id, term_value|
         show_regstatus = term_value.try(:[], :showRegStatus)
         if show_regstatus
-          undergrad = term_value.try(:[], 'academicCareer').try(:[], 'code') == 'UGRD'
+          undergrad = term_value.try(:[], 'academicCareer').try(:[], 'code') == ::Careers::UNDERGRADUATE
           registered = {isActive: term_includes_indicator?(term_value, '+REG')}
           registered.merge!({message: extract_indicator_message(term_value, '+REG')}) if registered[:isActive]
 
@@ -171,7 +171,7 @@ module MyRegistrations
     def show_regstatus?(term)
       past_end_of_instruction = get_term_flag(term, :pastEndOfInstruction)
       term_career = get_term_career(term)
-      term_includes_indicator?(term, '+S09') && !past_end_of_instruction && (term_career != 'UCBX')
+      term_includes_indicator?(term, '+S09') && !past_end_of_instruction && (term_career != ::Careers::CONCURRENT)
     end
 
     # Only consider showing CNP status for undergraduate non-summer terms in which the student is not already Officially Registered
@@ -183,7 +183,7 @@ module MyRegistrations
       show_regstatus = term.try(:[], :showRegStatus)
       summer = term.try(:[], :isSummer)
       regstatus = term.try(:[], :regStatus).try(:[], :summary)
-      undergrad = term.try(:[], 'academicCareer').try(:[], 'code') == 'UGRD'
+      undergrad = term.try(:[], 'academicCareer').try(:[], 'code') == ::Careers::UNDERGRADUATE
       past_classes_start = get_term_flag(term, :pastClassesStart)
 
       if show_regstatus && undergrad && !summer && regstatus != 'Officially Registered'

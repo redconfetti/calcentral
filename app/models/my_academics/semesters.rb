@@ -172,7 +172,7 @@ module MyAcademics
     end
 
     def exclude_enrollment_for_law?(enrollment)
-      return true if current_academic_roles['lawJointDegree'] && !['GRAD','LAW'].include?(enrollment[:academicCareer])
+      return true if current_academic_roles['lawJointDegree'] && ![::Careers::GRADUATE, ::Careers::LAW].include?(enrollment[:academicCareer])
       return true if law_student? && !current_academic_roles['lawJointDegree'] && !academic_careers.include?(enrollment[:academicCareer])
       false
     end
@@ -213,7 +213,7 @@ module MyAcademics
       if section[:waitlisted] && section[:is_primary_section]
         reserved_capacity_count = EdoOracle::Queries.section_reserved_capacity_count(term_id, section[:ccn]).first.try(:[],'reserved_seating_rules_count').to_i
         if reserved_capacity_count > 0
-          term = Berkeley::Terms.find_by_campus_solutions_id(term_id)
+          term = Berkeley::Terms.find(term_id)
           class_subject = course[:dept_code]
           catalog_nbr = course[:courseCatalog]
           class_section = section[:section_number]
@@ -324,11 +324,11 @@ module MyAcademics
     end
 
     def law_class?(course)
-      :LAW == course[:academicCareer].try(:intern)
+      ::Careers::LAW.to_sym == course[:academicCareer].try(:intern)
     end
 
     def grad_class?(course)
-      :GRAD == course[:academicCareer].try(:intern)
+      ::Careers::GRADUATE.to_sym == course[:academicCareer].try(:intern)
     end
 
     def is_concurrent_student

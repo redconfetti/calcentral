@@ -13,9 +13,24 @@ module HubEdos
             ::HubEdos::Common::Reference::Descriptor.new(@data['type']) if @data['type']
           end
 
+          def type_code
+            type.code
+          rescue NoMethodError
+          end
+
+          def type_description
+            type.description
+          rescue NoMethodError
+          end
+
           # a short descriptor representing the policy compliance issue, such as minimum progress, payment of fees, etc.
           def reason
             ::HubEdos::Common::Reference::Descriptor.new(@data['reason']) if @data['reason']
+          end
+
+          def reason_formal_description
+            reason.formal_description
+          rescue NoMethodError
           end
 
           # An Impact is a short descriptor representing the services restricted as a result of a block, such as future enrollment, viewing grades, etc.
@@ -26,6 +41,11 @@ module HubEdos
           # a component that describes the term the hold goes into effect
           def from_term
             ::HubEdos::StudentApi::V2::Term::Term.new(@data['fromTerm']) if @data['fromTerm']
+          end
+
+          def from_term_id
+            from_term.id
+          rescue NoMethodError
           end
 
           # a component that describes the term the hold goes out of effect

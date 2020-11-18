@@ -47,9 +47,9 @@ module MyAcademics
     end
 
     def api_response
-      response = academic_statuses_proxy.get_active_only
-      if response.try(:[], :feed).try(:[], 'academicStatuses').blank?
-        response = academic_statuses_proxy.get_inactive_completed
+      response = academic_statuses_proxy.active_only
+      if response.dig(:feed, 'academicStatuses').to_a.empty?
+        response = academic_statuses_proxy.all
       end
       response
     end

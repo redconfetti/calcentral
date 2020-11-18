@@ -18,7 +18,7 @@ module HubEdos
           private
 
           def data
-            api_response = ::HubEdos::StudentApi::V2::Feeds::AcademicStatuses.new(user_id: @user.uid).get_inactive_completed
+            api_response = ::HubEdos::StudentApi::V2::Feeds::AcademicStatuses.new(user_id: @user.uid).all
             if api_response[:statusCode] == 200
               return api_response.try(:[], :feed).try(:[], 'academicStatuses') || []
             end

@@ -76,7 +76,7 @@ module MyAcademics
       end
       if careers_include_inactive.length() > careers.length()
         careers_include_inactive.each do |career|
-          if (!career['program_status'] && (career['acad_career']=='GRAD' || career['acad_career']=='LAW'))
+          if (!career['program_status'] && (career['acad_career'] == ::Careers::GRADUATE || career['acad_career'] == ::Careers::LAW))
             result[:totalPreviousCareerCumUnits] = (career['total_cumulative_units']).to_f
             result[:totalPreviousCareerLawUnits] = (career['total_cumulative_law_units']).to_f
           end

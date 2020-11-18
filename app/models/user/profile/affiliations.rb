@@ -20,15 +20,51 @@ module User
         ldap_person.affiliations.include? 'STUDENT-TYPE-NOT REGISTERED'
       end
 
-      def is_student?
-        ihub_affiliations.student_affiliation_present?
+      def released_admit?
+        ihub_affiliations.has_active_admit_affiliation?
       end
+
+      def advisor?
+        ihub_affiliations.has_active_advisor_affiliation?
+      end
+
+      def applicant?
+        ihub_affiliations.has_active_applicant_affiliation?
+      end
+
+      def graduate?
+        ihub_affiliations.has_active_graduate_affiliation?
+      end
+
+      def law_student?
+        ihub_affiliations.has_active_law_affiliation?
+      end
+
+      def pre_sir?
+        ihub_affiliations.has_active_pre_sir_affiliation?
+      end
+
+      def student?
+        ihub_affiliations.has_active_student_affiliation?
+      end
+
+      def ex_student?
+        ihub_affiliations.has_inactive_student_affiliation?
+      end
+
+      def uc_extension_student?
+        ihub_affiliations.has_active_uc_extension_affiliation?
+      end
+
+      def undergraduate?
+        ihub_affiliations.has_active_undergraduate_affiliation?
+      end
+
+      private
 
       def ihub_affiliations
         ihub_person.affiliations
       end
-
-      private
 
       def ihub_person
         @ihub_person ||= HubEdos::PersonApi::V1::Person.get(user)

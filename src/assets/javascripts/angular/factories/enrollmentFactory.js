@@ -17,9 +17,6 @@ angular
     var urlEnrollmentInstructions = '/api/my/class_enrollments';
     // var urlEnrollmentInstructions = '/dummy/json/enrollment_instructions.json';
 
-    var urlAdvisingEnrollmentInstructions = '/api/advising/class_enrollments/';
-    // var urlAdvisingEnrollmentInstructions = '/dummy/json/enrollment_instructions.json';
-
     /**
      * Extracts update link and other information from academic planner object
      * @param {object} instructionType enrollment instruction object
@@ -121,11 +118,7 @@ angular
     };
 
     var getEnrollmentInstructionDecks = function(options) {
-      var url = $route.current.isAdvisingStudentLookup
-        ? urlAdvisingEnrollmentInstructions + $routeParams.uid
-        : urlEnrollmentInstructions;
-
-      return apiService.http.request(options, url).then(function(response) {
+      return apiService.http.request(options, urlEnrollmentInstructions).then(function(response) {
         $ngRedux.dispatch({
           type: 'FETCH_ENROLLMENTS_SUCCESS',
           value: response.data,

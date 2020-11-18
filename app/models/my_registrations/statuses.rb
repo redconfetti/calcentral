@@ -8,7 +8,12 @@ module MyRegistrations
     include Cache::UserCacheExpiry
     include ClassLogger
 
-    PRIORITIZED_CAREERS = ['LAW', 'GRAD', 'UGRD', 'UCBX']
+    PRIORITIZED_CAREERS = [
+      ::Careers::LAW,
+      ::Careers::GRADUATE,
+      ::Careers::UNDERGRADUATE,
+      ::Careers::CONCURRENT
+    ]
 
     def get_feed_internal
       {

@@ -66,10 +66,10 @@ module Concerns
 
     # Role(s) assigned to a user if they are in a career associated with that role.
     ACADEMIC_CAREER_ROLES = [
-      {role_code: 'ugrd', match: ['UGRD']},
-      {role_code: 'grad', match: ['GRAD']},
-      {role_code: 'law', match: ['LAW']},
-      {role_code: 'concurrent', match: ['UCBX']}
+      {role_code: 'ugrd', match: [::Careers::UNDERGRADUATE]},
+      {role_code: 'grad', match: [::Careers::GRADUATE]},
+      {role_code: 'law', match: [::Careers::LAW]},
+      {role_code: 'concurrent', match: [::Careers::CONCURRENT]}
     ]
 
     STUDENT_GROUP_ROLES = [

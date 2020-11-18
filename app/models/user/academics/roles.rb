@@ -7,11 +7,11 @@ module User
         @user = user
       end
 
-      def current_user_roles
+      def current_academic_roles
         collect_roles(user_roles_hash[:current])
       end
 
-      def historic_user_roles
+      def historic_academic_roles
         collect_roles(user_roles_hash[:historical])
       end
 

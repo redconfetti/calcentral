@@ -1,8 +1,5 @@
 describe HubEdoController do
-  before do
-    allow(Settings.hub_edos_proxy).to receive(:fake).and_return true
-    allow(Settings.campus_solutions_links).to receive(:fake).and_return true
-  end
+  before { allow(Settings.hub_edos_proxy).to receive(:fake).and_return true }
   let(:user_id) { random_id }
 
   describe '#work_experience' do

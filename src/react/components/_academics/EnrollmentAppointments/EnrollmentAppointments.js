@@ -64,11 +64,11 @@ const EnrollmentAppointments = ({ instruction, enrollmentTerms }) => {
                 <tr key={period.id}>
                   <td>{period.name.replace(' Begins', '')}</td>
                   <td>
-                    <TimeCell time={parseISO(period.date.datetime)} />
+                    <TimeCell time={parseISO(period.beginTime.pacific)} />
                   </td>
                   {!termIsSummer && (
                     <td>
-                      <TimeCell time={parseISO(period.enddatetime)} />
+                      <TimeCell time={parseISO(period.endTime.pacific)} />
                     </td>
                   )}
                 </tr>

@@ -2,10 +2,10 @@ namespace :database do
 
   def seeded?
     begin
-      link_role = Links::UserRole.all.first
+      service_alert = ServiceAlerts::Alert.all.first
     rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
     end
-    if link_role.present?
+    if service_alert.present?
       true
     else
       false
@@ -23,6 +23,13 @@ namespace :database do
       else
         Rails.logger.warn 'Production database has not been seeded - please import data as needed'
       end
+    end
+  end
+
+  task :load_schema => :environment do
+    if Rails.env == "test" and Rails.configuration.database_configuration['test']['adapter'] == 'sqlite3'
+      load "#{Rails.root}/db/schema.rb"
+      puts "SQLite database loaded from db/schema.rb"
     end
   end
 

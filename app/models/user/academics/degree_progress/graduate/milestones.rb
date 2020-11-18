@@ -5,12 +5,11 @@ module User
         class Milestones
           attr_reader :user
 
-          CAREER_LAW = 'LAW'
           ACAD_PROG_CODE_LACAD = 'LACAD'
 
           # Returns true for milestones related to Law Self-Supporting, Professional, and Non-Degree Programs
           def self.filter_law_nonacademic(milestone)
-            milestone.academic_career_code == CAREER_LAW && milestone.academic_program_code != ACAD_PROG_CODE_LACAD
+            milestone.academic_career_code == Careers::LAW && milestone.academic_program_code != ACAD_PROG_CODE_LACAD
           end
 
           def initialize(user)
