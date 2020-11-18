@@ -191,6 +191,7 @@ module MyAcademics
         { feed_key: :uc_view_class_enrollment, cs_link_key: 'UC_CX_GT_SSCNTENRL_VIEW', cs_link_params: {} },
         { feed_key: :request_late_class_changes, cs_link_key: 'UC_CX_GT_GRADEOPT_ADD', cs_link_params: {} },
         { feed_key: :cross_campus_enroll, cs_link_key: 'UC_CX_STDNT_CRSCAMPENR', cs_link_params: {} },
+        { feed_key: :enrollment_center, cs_link_key: 'UC_SR_SS_ENROLLMENT_CENTER', cs_link_params: {} },
       ]
       late_ugrd_enroll_action_link = { feed_key: :late_ugrd_enroll_action, cs_link_key: 'UC_CX_GT_SRLATEDROP_ADD' }
       campus_solutions_link_settings.append(late_ugrd_enroll_action_link) if can_see_late_ugrd_enroll_action_link?

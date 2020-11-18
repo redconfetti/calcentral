@@ -1,6 +1,35 @@
 <?xml version="1.0"?>
 <UC_LINK_RESOURCES>
   <Link>
+    <URL_ID>UC_SR_SS_ENROLLMENT_CENTER</URL_ID>
+    <Description>Enrollment Center</Description>
+    <HOVER_OVER_TEXT>Click here to continue to the Enrollment Center</HOVER_OVER_TEXT>
+    <PROPERTIES type="array">
+      <PROPERTY>
+        <NAME>CALCENTRAL</NAME>
+        <value>GENERIC</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROM</NAME>
+        <value>CalCentral</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROMLINK</NAME>
+        <value>GENERIC</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>UCFROMTEXT</NAME>
+        <value>CalCentral</value>
+      </PROPERTY>
+      <PROPERTY>
+        <NAME>URI_TYPE</NAME>
+        <value>CN</value>
+      </PROPERTY>
+    </PROPERTIES>
+    <URL>https://bcsdev.is.berkeley.edu/psc/bcsdev/EMPLOYEE/SA/c/SSR_STUDENT_FL.SSR_MD_SP_FL.GBL?Action=U&amp;MD=Y&amp;GMenu=SSR_STUDENT_FL&amp;GComp=SSR_START_PAGE_FL&amp;GPage=SSR_START_PAGE_FL&amp;scname=CS_SSR_MANAGE_CLASSES_NAV&amp;AJAXTransfer=y&amp;ICAJAXTrf=true&amp;ICMDListSlideout=true</URL>
+    <COMMENTS></COMMENTS>
+  </Link>
+  <Link>
     <URL_ID>UC_CX_WAITLIST_ACAD_GUIDE_CLS</URL_ID>
     <Description>Review Reserved Seats</Description>
     <HOVER_OVER_TEXT>View class schedule and reserve seating rules</HOVER_OVER_TEXT>
