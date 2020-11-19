@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe User::Academics::TermRegistration, type: :model do
-  let(:term) { instance_double("User::Academics::Term") }
-  let(:user) { instance_double("User::Current") }
+  let(:term) { build(:term) }
+  let(:user) { build(:user) }
 
   subject { User::Academics::TermRegistration.new(user, term) }
 
@@ -16,7 +16,6 @@ RSpec.describe User::Academics::TermRegistration, type: :model do
 
     describe "before tuition calculation" do
       it "is nil" do
-        subject = User::Academics::TermRegistration.new(user, term)
         expect(subject).to receive(:summer?).and_return(false)
         expect(subject).to receive(:tuition_calculated?).and_return(false)
         expect(subject.status_message).to eq nil
@@ -35,8 +34,6 @@ RSpec.describe User::Academics::TermRegistration, type: :model do
   end
 
   describe "#registration_status" do
-    subject { User::Academics::TermRegistration.new(user, term) }
-
     it "is a NullStatus during summer terms" do
       allow(subject).to receive(:summer?).and_return(true)
       expect(subject.registration_status).to be_an_instance_of(User::Academics::Status::NullStatus)

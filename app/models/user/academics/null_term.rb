@@ -21,6 +21,10 @@ module User
       def code
         ''
       end
+
+      def to_english
+        'Term Not Found'
+      end
     end
   end
 end

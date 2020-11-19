@@ -16,7 +16,7 @@ module User
         Terms::LEGACY_CODES.fetch(code) { "" }
       end
 
-      delegate :code, to: :berkeley_term
+      delegate :code, :to_english, to: :berkeley_term
 
       def name
         "#{semester_name} #{year}"
