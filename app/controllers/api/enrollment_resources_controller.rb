@@ -1,4 +1,4 @@
-class EnrollmentResourcesController < ApplicationController
+class Api::EnrollmentResourcesController < ApplicationController
 
   # /api/:uid/enrollment_resources.json
   def show
